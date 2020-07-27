@@ -8,6 +8,7 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 #include <cassert>
 #include <random>
 #include <unistd.h>
@@ -119,21 +120,22 @@ void init_pars_from_cmd(int arc, char **argv)
     d[0] = atof(argv[7]); // dm
     d[1] = atof(argv[8]); // df
     base_mort = atof(argv[9]);
-    a = atof(argv[9]);
-    cp = atof(argv[10]);
-    cs = atof(argv[11]);
-    k = atof(argv[11]);
-    fl = atof(argv[12]);
-    fh = atof(argv[13]);
-    control_p = static_cast<Expression>(atoi(argv[12]));
-    control_t = static_cast<Expression>(atoi(argv[13]));
-    control_tprime = static_cast<Expression>(atoi(argv[14]));
-    mu_t = atof(argv[15]);
-    mu_p = atof(argv[16]);
-    mu_tprime = atof(argv[17]);
-    sdmu_t = atof(argv[18]);
-    sdmu_p = atof(argv[19]);
-    sdmu_tprime = atof(argv[20]);
+    a = atof(argv[10]);
+    cp = atof(argv[11]);
+    cs = atof(argv[12]);
+    k = atof(argv[13]);
+    fl = atof(argv[14]);
+    fh = atof(argv[15]);
+    control_p = static_cast<Expression>(atoi(argv[16]));
+    control_t = static_cast<Expression>(atoi(argv[17]));
+    control_tprime = static_cast<Expression>(atoi(argv[18]));
+    mu_t = atof(argv[19]);
+    mu_p = atof(argv[20]);
+    mu_tprime = atof(argv[21]);
+    sdmu_t = atof(argv[22]);
+    sdmu_p = atof(argv[23]);
+    sdmu_tprime = atof(argv[24]);
+    file_basename = argv[25];
 }
 
 // preferred method: initialize parameter
@@ -198,6 +200,16 @@ void init_pars_from_yaml(std::string const &yaml_file_name)
         fail = true;
         fail_param = "init_tprime";
     }
+    
+    if (param_file["p_high"]) {
+        p_high = param_file["p_high"].as<double>();
+    }
+    else
+    {
+        fail = true;
+        fail_param = "p_high";
+    }
+
 
     if (param_file["dm"]) {
         d[0] = param_file["dm"].as<double>();
@@ -384,6 +396,7 @@ void init_pars_from_yaml(std::string const &yaml_file_name)
         std::cout << "Cannot find '" << fail_param <<  "' in " << yaml_file_name << std::endl;
         throw "Cannot find '" + fail_param + "' in " + yaml_file_name;
     }
+
 } // end init_pars_from_yaml()
 
 
@@ -446,15 +459,15 @@ void write_parameters(std::ofstream &data_file)
         "k;" << k << std::endl <<
         "fl;" << fl << std::endl <<
         "fh;" << fh << std::endl <<
-        "control_p" << control_p << std::endl <<
-        "control_t" << control_t << std::endl <<
-        "control_tprime" << control_tprime << std::endl <<
-        "mu_t" << mu_t << std::endl <<
-        "mu_p" << mu_p << std::endl <<
-        "mu_tprime" << mu_tprime << std::endl <<
-        "sdmu_t" << sdmu_t << std::endl <<
-        "sdmu_p" << sdmu_p << std::endl <<
-        "sdmu_tprime" << sdmu_tprime << std::endl <<
+        "control_p;" << control_p << std::endl <<
+        "control_t;" << control_t << std::endl <<
+        "control_tprime;" << control_tprime << std::endl <<
+        "mu_t;" << mu_t << std::endl <<
+        "mu_p;" << mu_p << std::endl <<
+        "mu_tprime;" << mu_tprime << std::endl <<
+        "sdmu_t;" << sdmu_t << std::endl <<
+        "sdmu_p;" << sdmu_p << std::endl <<
+        "sdmu_tprime;" << sdmu_tprime << std::endl <<
         std::endl;
 }
 
@@ -567,6 +580,8 @@ void create_offspring(
     //
     offspring.envt_quality_high = uniform(rng_r) < p_high;
 
+    offspring.p_phen = 0.0;
+
     // express loci dependent on who is in control
     switch(control_p) {
 
@@ -591,7 +606,7 @@ void create_offspring(
     }
 
     // express baseline ornament
-    double t_phen;
+    double t_phen = 0.0;
 
     switch(control_t) {
 
@@ -616,7 +631,7 @@ void create_offspring(
     }
     
     // express ornament plasticity
-    double tprime_phen;
+    double tprime_phen = 0.0;
 
     switch(control_tprime) {
 
@@ -641,11 +656,14 @@ void create_offspring(
     }
 
     offspring.s = t_phen + tprime_phen * offspring.envt_quality_high;
-
 } // end create offspring
 
 void mate_produce_offspring()
 {
+    // clear existing stacks of dispersing juveniles
+    disp_juvsM.clear();
+    disp_juvsF.clear();
+
     // vector to store the odds of choosing this mate according 
     // to open-ended preferences
     // i.e., exp(a p s) 
@@ -665,6 +683,11 @@ void mate_produce_offspring()
         // loop through all females in a particular site
         for (int female_idx = 0; female_idx < nf; ++female_idx)
         {
+            // reset local counts of juveniles in this stack
+            // as we will produce them now
+            meta_population[patch_idx].njuvsF = 0;
+            meta_population[patch_idx].njuvsM = 0;
+
             // express preference
             p = meta_population[patch_idx].breedersF[female_idx].p_phen; 
 
@@ -752,6 +775,9 @@ void mate_produce_offspring()
                         meta_population[patch_idx].
                             phil_juvsM[meta_population[patch_idx].njuvsM++] = Kid;
                     }
+                    
+                    assert(meta_population[patch_idx].njuvsF < nf_max * clutch_max);
+                    assert(meta_population[patch_idx].njuvsM < nf_max * clutch_max);
                 }
 
             } // end for for (int egg_i = 0; egg_i < clutch_max; ++egg_i)
@@ -761,8 +787,8 @@ void mate_produce_offspring()
     } // end for (int patch_idx = 0; patch_idx < n_patches; ++patch_idx)
 
     // randomly shuffle dispersers
-    std::shuffle(disp_juvsM.begin(), disp_juvsM.end(), rng_r);
-    std::shuffle(disp_juvsF.begin(), disp_juvsF.end(), rng_r);
+    shuffle(disp_juvsM.begin(), disp_juvsM.end(), rng_r);
+    shuffle(disp_juvsF.begin(), disp_juvsF.end(), rng_r);
 
 } // end mate_produce_offspring()
 
@@ -792,6 +818,9 @@ void adult_mortality_replacement()
     {
         nm_imm_local = nm_imm_total / n_patches;
         nf_imm_local = nf_imm_total / n_patches;
+                    
+        assert(meta_population[patch_idx].njuvsF < nf_max * clutch_max);
+        assert(meta_population[patch_idx].njuvsM < nf_max * clutch_max);
 
         // loop through all females in a particular site
         for (int female_idx = 0; female_idx < nf; ++female_idx)
@@ -825,9 +854,12 @@ void adult_mortality_replacement()
                     assert(meta_population[patch_idx].njuvsF > 0);
 
                     std::uniform_int_distribution<int> 
-                        local_female_sampler(meta_population[patch_idx].njuvsF - 1);
+                        local_female_sampler(0, meta_population[patch_idx].njuvsF - 1);
 
                     int sampled_juvF = local_female_sampler(rng_r);
+
+                    assert(sampled_juvF >= 0);
+                    assert(sampled_juvF < meta_population[patch_idx].njuvsF);
 
                     // assign one of the local female juveniles to this spot
                     meta_population[patch_idx].breedersF[female_idx] = 
@@ -865,7 +897,7 @@ void adult_mortality_replacement()
                     base_mort + 
                     (1.0 - base_mort) * cs * s * s/(1.0 + k * envt_high))
             {
-
+                // male dies
                 assert(nm_imm_local >= 0);
 
                 // choose immigrant rathern than local female
@@ -887,10 +919,15 @@ void adult_mortality_replacement()
                 {
                     assert(meta_population[patch_idx].njuvsM > 0);
 
+                    assert(meta_population[patch_idx].njuvsM < nf * clutch_max);
+
                     std::uniform_int_distribution<int> 
-                        local_male_sampler(meta_population[patch_idx].njuvsM - 1);
+                        local_male_sampler(0, meta_population[patch_idx].njuvsM - 1);
 
                     int sampled_juvM = local_male_sampler(rng_r);
+
+                    assert(sampled_juvM >= 0);
+                    assert(sampled_juvM < meta_population[patch_idx].njuvsM);
 
                     // assign one of the local female juveniles to this spot
                     meta_population[patch_idx].breedersM[male_idx] = 
@@ -910,8 +947,6 @@ void adult_mortality_replacement()
         }
     }
     // empty the remaining dispersers
-    disp_juvsM.clear();
-    disp_juvsF.clear();
 
 } // end adult_mortality_replacement()
 
@@ -951,6 +986,7 @@ int main(int argc, char **argv)
 
     init_pars_from_yaml(yaml_file);
 
+//    init_pars_from_cmd(argc, argv);
     // ok parameters initialized, now lets do some work
 
     // initialize output files
