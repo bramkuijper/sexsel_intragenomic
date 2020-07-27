@@ -1,0 +1,249 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[      8528,        241]
+NotebookOptionsPosition[      7206,        212]
+NotebookOutlinePosition[      7544,        227]
+CellTagsIndexPosition[      7501,        224]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Direct-benefits sexual selection & kin selection", "Section",
+ CellChangeTimes->{{3.796116492822753*^9, 
+  3.7961165017985992`*^9}},ExpressionUUID->"90f1f2fd-dc54-4bf2-85a8-\
+a39d504e8409"],
+
+Cell["\<\
+Questions to be asked here:
+- how do parents and offspring differ in terms of optimal ornament and \
+preference investment?
+- how does sex-biased dispersal and local competition affect ornament and \
+preference investment?
+- (potential extras): how does environmental change affect ornament investment\
+\>", "Text",
+ CellChangeTimes->{{3.7961165036134863`*^9, 
+  3.7961165669081297`*^9}},ExpressionUUID->"a1c9bef3-083e-4d53-bd1f-\
+6f043b634906"],
+
+Cell[CellGroupData[{
+
+Cell["Preference function", "Subsection",
+ CellChangeTimes->{{3.796116601849475*^9, 
+  3.796116606257415*^9}},ExpressionUUID->"649f680b-164f-44db-9644-\
+55214eafae80"],
+
+Cell["\<\
+We use open-ended preferences for now (see Andersson book about , but it \
+would be cool to study best-of-N preferences\
+\>", "Text",
+ CellChangeTimes->{{3.79611660923236*^9, 
+  3.7961166448628883`*^9}},ExpressionUUID->"dc5691eb-87b1-4da2-b775-\
+8c11a16662b2"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Female fitness functions", "Section",
+ CellChangeTimes->{{3.804571810642424*^9, 
+  3.804571812642514*^9}},ExpressionUUID->"5b8750e6-b60d-4366-9378-\
+05ad41eb9bdb"],
+
+Cell["Female probability of mating with a high quality male", "Text",
+ CellChangeTimes->{{3.804578411278657*^9, 
+  3.804578421822155*^9}},ExpressionUUID->"9ba14e0a-8ad9-462d-82f0-\
+e40169788c38"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"\[Alpha]", "[", 
+   RowBox[{"nmh_", ",", "p_", ",", "t_", ",", "tpr_"}], "]"}], ":=", 
+  FractionBox[
+   RowBox[{
+    RowBox[{"r", "[", 
+     RowBox[{"p", ",", "t", ",", "tpr", ",", "1"}], "]"}], " ", 
+    FractionBox["nmh", "nm"]}], 
+   RowBox[{
+    RowBox[{
+     RowBox[{"r", "[", 
+      RowBox[{"p", ",", "t", ",", "tpr", ",", "0"}], "]"}], 
+     FractionBox[
+      RowBox[{"n", "-", "nmh"}], "nm"]}], "+", 
+    RowBox[{
+     RowBox[{"r", "[", 
+      RowBox[{"p", ",", "t", ",", "tpr", ",", "1"}], "]"}], 
+     FractionBox["nmh", "nm"]}]}]]}]], "Input",
+ CellChangeTimes->{{3.804578203136043*^9, 3.8045782061851377`*^9}, {
+  3.804578247374133*^9, 3.8045782547704983`*^9}, {3.8045783629222517`*^9, 
+  3.804578407254797*^9}, {3.80457846050284*^9, 3.804578535465384*^9}, {
+  3.8045786786584578`*^9, 
+  3.8045786811698313`*^9}},ExpressionUUID->"bbeb790a-a045-4d9f-a6ba-\
+379cce9c8fce"],
+
+Cell["Total number of competing juveniles:", "Text",
+ CellChangeTimes->{{3.804578843522214*^9, 
+  3.804578851626253*^9}},ExpressionUUID->"3f474f15-7173-4ce6-bff4-\
+dcfb6692069c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"Cj", "[", 
+   RowBox[{
+   "nmh_", ",", "plocal_", ",", "tlocal_", ",", "tprlocal_", ",", "sex_"}], 
+   "]"}], ":=", 
+  RowBox[{"nf", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"d", "[", "sex", "]"}]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Alpha]", "[", 
+          RowBox[{"nmh", ",", "plocal", ",", "tlocal", ",", "tprlocal"}], 
+          "]"}], "fh"}], "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"\[Alpha]", "[", 
+            RowBox[{"nmh", ",", "plocal", ",", "tlocal", ",", "tprlocal"}], 
+            "]"}]}], ")"}], "fl"}]}], ")"}]}], "+", 
+     RowBox[{
+      RowBox[{"d", "[", "sex", "]"}], 
+      RowBox[{"Sum", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"q", "[", "nmx", "]"}], 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"\[Alpha]", "[", 
+             RowBox[{"nmx", ",", "p", ",", "t", ",", "tpr"}], "]"}], "fh"}], 
+           "+", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"1", "-", 
+              RowBox[{"\[Alpha]", "[", 
+               RowBox[{"nmx", ",", "p", ",", "t", ",", "tpr"}], "]"}]}], 
+             ")"}], "fl"}]}], ")"}]}], ",", 
+        RowBox[{"{", 
+         RowBox[{"nmx", ",", "0", ",", "nm"}], "}"}]}], "]"}]}]}], 
+    ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.804578828212792*^9, 3.8045788384344587`*^9}, {
+  3.804578911255866*^9, 3.804578917935923*^9}, {3.80457895908523*^9, 
+  3.804578961766217*^9}, {3.804579086487103*^9, 3.80457915716343*^9}, {
+  3.8045791953593607`*^9, 3.804579268296702*^9}, {3.804579302584456*^9, 
+  3.8045793661694603`*^9}},ExpressionUUID->"ae03a1f9-adb5-4878-b4ee-\
+9258dda4fb6c"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"wff", "=", 
+   RowBox[{"Sum", "[", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"q", "[", "nmh", "]"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"\[Alpha]", "[", 
+          RowBox[{"nmh", ",", "pfocal", ",", "t", ",", "tpr"}], "]"}], "fh"}],
+         "+", 
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"\[Alpha]", "[", 
+            RowBox[{"nmh", ",", "pfocal", ",", "t", ",", "tpr"}], "]"}]}], 
+          ")"}], "fl"}]}], ")"}], 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"(", 
+          RowBox[{"1", "-", 
+           RowBox[{"d", "[", "f", "]"}]}], ")"}], 
+         FractionBox["nf", 
+          RowBox[{"Cj", "[", 
+           RowBox[{"nmh", ",", "plocal", ",", "t", ",", "tpr"}], "]"}]]}], 
+        "+", 
+        RowBox[{"df", " ", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"q", "[", "nmx", "]"}], 
+            FractionBox["nf", 
+             RowBox[{"Cj", "[", 
+              RowBox[{"nmx", ",", "p", ",", "t", ",", "tpr", ",", "f"}], 
+              "]"}]]}], ",", 
+           RowBox[{"{", 
+            RowBox[{"nmx", ",", "0", ",", "nm"}], "}"}]}], "]"}]}]}], ")"}]}],
+      ",", 
+     RowBox[{"{", 
+      RowBox[{"nmh", ",", "0", ",", "nm"}], "}"}]}], "]"}]}], ";"}]], "Input",\
+
+ CellChangeTimes->{{3.80457426286201*^9, 3.804574271897901*^9}, {
+   3.804574323437202*^9, 3.804574353173839*^9}, {3.804574738147963*^9, 
+   3.804574738797274*^9}, 3.804577401089753*^9, {3.804578053358815*^9, 
+   3.804578060438899*^9}, {3.804578175282988*^9, 3.804578199168948*^9}, {
+   3.8045785440892143`*^9, 3.8045785457528687`*^9}, {3.804578595303471*^9, 
+   3.8045787265649977`*^9}, {3.804578779223817*^9, 3.804578822251745*^9}, {
+   3.804579096992094*^9, 3.80457909753408*^9}, 3.80457912773431*^9, {
+   3.804579433456962*^9, 3.804579640926181*^9}},
+ CellLabel->"In[3]:=",ExpressionUUID->"5ac78146-f721-4540-a2dc-cc07c55c8628"],
+
+Cell[BoxData["wmm"], "Input",
+ CellChangeTimes->{{3.804612119255458*^9, 
+  3.8046121209334917`*^9}},ExpressionUUID->"21accc97-5638-44a4-b0a3-\
+b28b93548a6a"]
+}, Open  ]]
+},
+WindowSize->{808, 911},
+WindowMargins->{{Automatic, 433}, {Automatic, 36}},
+FrontEndVersion->"12.0 for Mac OS X x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 195, 3, 67, "Section",ExpressionUUID->"90f1f2fd-dc54-4bf2-85a8-a39d504e8409"],
+Cell[778, 27, 455, 10, 104, "Text",ExpressionUUID->"a1c9bef3-083e-4d53-bd1f-6f043b634906"],
+Cell[CellGroupData[{
+Cell[1258, 41, 167, 3, 54, "Subsection",ExpressionUUID->"649f680b-164f-44db-9644-55214eafae80"],
+Cell[1428, 46, 270, 6, 58, "Text",ExpressionUUID->"dc5691eb-87b1-4da2-b775-8c11a16662b2"]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[1747, 58, 169, 3, 67, "Section",ExpressionUUID->"5b8750e6-b60d-4366-9378-05ad41eb9bdb"],
+Cell[1919, 63, 195, 3, 35, "Text",ExpressionUUID->"9ba14e0a-8ad9-462d-82f0-e40169788c38"],
+Cell[2117, 68, 919, 24, 66, "Input",ExpressionUUID->"bbeb790a-a045-4d9f-a6ba-379cce9c8fce"],
+Cell[3039, 94, 178, 3, 35, "Text",ExpressionUUID->"3f474f15-7173-4ce6-bff4-dcfb6692069c"],
+Cell[3220, 99, 1809, 51, 115, "Input",ExpressionUUID->"ae03a1f9-adb5-4878-b4ee-9258dda4fb6c"],
+Cell[5032, 152, 1998, 52, 109, "Input",ExpressionUUID->"5ac78146-f721-4540-a2dc-cc07c55c8628"],
+Cell[7033, 206, 157, 3, 30, "Input",ExpressionUUID->"21accc97-5638-44a4-b0a3-b28b93548a6a"]
+}, Open  ]]
+}
+]
+*)
+
