@@ -646,6 +646,10 @@ void create_offspring(
 
 void mate_produce_offspring()
 {
+    // empty the remaining dispersers
+    disp_juvsM.clear();
+    disp_juvsF.clear();
+
     // vector to store the odds of choosing this mate according 
     // to open-ended preferences
     // i.e., exp(a p s) 
@@ -909,10 +913,6 @@ void adult_mortality_replacement()
             } // end if if (uniform(rng_r) < base_mort + ...
         }
     }
-    // empty the remaining dispersers
-    disp_juvsM.clear();
-    disp_juvsF.clear();
-
 } // end adult_mortality_replacement()
 
 
