@@ -10,7 +10,7 @@
 #include <cassert>
 #include <random>
 #include <unistd.h>
-#include <yaml-cpp/yaml.h>
+//#include <yaml-cpp/yaml.h>
 #include "individual.hpp"
 
 // set up the random number generator using a good way of getting random seed
@@ -138,7 +138,7 @@ void init_pars_from_cmd(int arc, char **argv)
 
 // preferred method: initialize parameter
 // from yaml file with parameter
-void init_pars_from_yaml(std::string const &yaml_file_name)
+/* void init_pars_from_yaml(std::string const &yaml_file_name)
 {
     // make the yaml file into an object so that we
     // can extract things
@@ -396,7 +396,7 @@ void init_pars_from_yaml(std::string const &yaml_file_name)
     }
 
 } // end init_pars_from_yaml()
-
+ */
 
 // initialize the population by creating individuals
 // and assigning them traits
