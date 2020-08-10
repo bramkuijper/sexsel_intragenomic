@@ -10,7 +10,7 @@
 #include <cassert>
 #include <random>
 #include <unistd.h>
-//#include <yaml-cpp/yaml.h>
+#include <yaml-cpp/yaml.h>
 #include "individual.hpp"
 
 // set up the random number generator using a good way of getting random seed
@@ -138,7 +138,7 @@ void init_pars_from_cmd(int arc, char **argv)
 
 // preferred method: initialize parameter
 // from yaml file with parameter
-/* void init_pars_from_yaml(std::string const &yaml_file_name)
+void init_pars_from_yaml(std::string const &yaml_file_name)
 {
     // make the yaml file into an object so that we
     // can extract things
@@ -396,7 +396,6 @@ void init_pars_from_cmd(int arc, char **argv)
     }
 
 } // end init_pars_from_yaml()
- */
 
 // initialize the population by creating individuals
 // and assigning them traits
@@ -946,3 +945,62 @@ void adult_mortality_replacement()
     }
 } // end adult_mortality_replacement()
 
+// the main part of the code
+int main(int argc, char **argv)
+{
+    // variable storing the name of the yaml parameter file
+    std::string yaml_file{};
+ 
+    // first
+    int opt;
+
+    std::stringstream usage;
+    
+    usage << "Usage of this programme: " << argv[0] << " -f location_of_yaml_parameter_file.yaml" << std::endl;
+
+    while ((opt = getopt(argc, argv, "f:")) != -1) 
+    {
+        if (opt == 'f')
+        {
+            yaml_file = optarg;
+        }
+        else
+        {
+            std::cerr << usage.str();
+
+            exit(EXIT_FAILURE);
+        }
+    } // end while
+
+    if (argc < 2)
+    {
+        std::cerr << usage.str();
+        exit(EXIT_FAILURE);
+    }
+
+    init_pars_from_yaml(yaml_file);
+
+//    init_pars_from_cmd(argc, argv);
+    // ok parameters initialized, now lets do some work
+
+    // initialize output files
+    std::ofstream data_file(file_basename + ".csv");
+
+    // write headers to the data file
+    write_stats_headers(data_file);
+
+    initialize_population();
+
+    for (int generation_idx = 0; generation_idx < max_generations; ++generation_idx)
+    {
+        mate_produce_offspring();
+        adult_mortality_replacement();
+
+        if (generation_idx % skip == 0)
+        {
+            write_stats_per_timestep(generation_idx, data_file);
+        }
+    }
+
+    write_parameters(data_file);
+}

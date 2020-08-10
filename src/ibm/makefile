@@ -3,7 +3,7 @@
 # a runnable executable file
 
 EXE=sexsel_intragenomic.exe
-CPP=sexsel_intragenomic.cpp individual.cpp main.cpp 
+CPP=sexsel_intragenomic.cpp individual.cpp
 HPP=individual.hpp
 LIBS=yaml-cpp
 
