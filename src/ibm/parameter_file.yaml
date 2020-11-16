@@ -60,5 +60,5 @@ sdmu_t: 0.05
 sdmu_p: 0.05
 sdmu_tprime: 0.05
 
-max_generations: 100
+max_generations: 50000
 
