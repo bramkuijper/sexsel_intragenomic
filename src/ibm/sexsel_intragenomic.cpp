@@ -471,7 +471,7 @@ void write_parameters(std::ofstream &data_file)
 
 void write_stats_headers(std::ofstream &data_file)
 {
-    data_file << "t;p;tprime;var_t;var_p;var_tprime;" << std::endl;
+    data_file << "generation;t;p;tprime;var_t;var_p;var_tprime" << std::endl;
 }
 
 // write statistics to file data_file
@@ -539,7 +539,7 @@ void write_stats_per_timestep(int time_step, std::ofstream &data_file)
         << mean_tprime <<  ";"
         << var_t <<  ";"
         << var_p <<  ";"
-        << var_tprime <<  ";" << std::endl;
+        << var_tprime <<  std::endl;
 } // end void write_stats_per_timestep()
 
 double mutate(double const val, double const mu, double const sdmu)
