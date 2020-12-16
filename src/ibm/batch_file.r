@@ -2,16 +2,16 @@ library("simulation.utils")
 
 params <- list()
 
-params$nm <- seq(1,10,1)
+params$nm <- seq(2,10,1)
 params$init_t <- 0.01
 params$init_p <- 0.2
 params$init_tprime <- 0.01
 params$p_high <- 0.2
 params$dm <- 0.2
 params$df <- 0.2
-params$base_surv <- 0.0
-params$base_mort <- 0.0
-params$a <- c(0,1)
+params$base_surv <- 0.02
+params$base_mort <- 0.02
+params$a <- c(1)
 params$cp <- 0.1
 params$cs <- 0.5
 params$k <- 0.5
@@ -26,19 +26,23 @@ params$mu_tprime <- 0.01
 params$sdmu_t <- 0.01
 params$sdmu_p <- 0.01
 params$sdmu_tprime <- 0.01
-params$max_generations <- 500
+params$max_generations <- 50000
 params$clutch_max <- 50
 
 # expand all parameter combinations to one data frame
 all_params = as.data.frame(expand.grid(params))
 
-all_params["n_patches"] <- 8000 / all_params$nf  
-
 # rather than vary nf and nm independently, we 
 # focus on a scenario where nf is high and nm low
 # and vice versa. Hence, if nm = 10, nf = 1
 # if nm = 1, nf = 10 and all values in between:
-all_params["nf"] <- 11 - all_params["nm"]
+all_params["nf"] <- 12 - all_params["nm"]
+
+# finally, we keep population size constant
+# and only vary the number of patches, which
+# decrease the more inhabitants there are
+all_params["n_patches"] <- 5000 / all_params$nf  
+
 
 #setwd("/Users/bram/Projects/sexsel_intragenomic/src/ibm" )
 

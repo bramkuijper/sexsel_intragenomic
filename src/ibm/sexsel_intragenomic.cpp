@@ -448,10 +448,15 @@ void initialize_population()
 
 
             deme_i.breedersM.push_back(male_i);
-        }
+        } 
 
         meta_population.push_back(deme_i);
-    }
+    } // end for patch_idx
+
+    assert(meta_population[n_patches - 1].breedersF.size() == nf);
+    assert(meta_population[n_patches - 1].breedersM.size() == nm);
+    assert(meta_population.size() > 0);
+    assert(meta_population.size() == n_patches);
 } // end initialize_population()
 
 // function to write parameters 
@@ -705,6 +710,13 @@ void mate_produce_offspring()
     // loop through all patches of the metapopulation
     for (int patch_idx = 0; patch_idx < n_patches; ++patch_idx)
     {
+        assert(meta_population[patch_idx].breedersM.size() > 0);
+        assert(meta_population[patch_idx].breedersM.size() == nm);
+        
+        assert(meta_population[patch_idx].breedersF.size() > 0);
+        assert(meta_population[patch_idx].breedersF.size() == nf);
+
+
         // loop through all females in a particular site
         for (int female_idx = 0; female_idx < nf; ++female_idx)
         {
