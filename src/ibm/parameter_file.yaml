@@ -1,5 +1,12 @@
-# a parameter file written in YAML
-# see here for more info https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html 
+# This file shows you all the 
+# parameters that we should vary in order
+# to run a batch of different simulations
+# subsequently
+
+
+# the number of cores on your computer on which you can
+# run things simultaneously
+ncores_simultaneous: 2
 #
 # number of males in each patch (influences genomic imprinting)
 # more info http://dx.doi.org/10.1111/j.1749-6632.2000.tb06621.x
@@ -20,11 +27,11 @@ p_high: 0.5
 dm: 0.1
 # female dispersal rate (influences genomic imprinting)
 df: 0.9
-# baseline mortality. If 0 everyone survives, so evolution slows down
-base_mort: 0.5
+# baseline survival. If 1 everyone survives, so evolution slows down
+base_surv: 0.1
 
 # efficacy of sexual selection
-a: 1.5
+a: 0 
 
 # cost of female preference
 cp: 0.01
@@ -40,7 +47,7 @@ fl: 0.5
 # survival of high quality offspring
 fh: 0.9
 
-file_basename: "output"
+file_basename: "output2"
 
 # control over expression
 # codings are as follows:

@@ -3,8 +3,8 @@
 # a runnable executable file
 
 EXE=sexsel_intragenomic.exe
-CPP=sexsel_intragenomic.cpp individual.cpp
-HPP=individual.hpp
+CPP=sexsel_intragenomic.cpp individual.cpp patch.cpp
+HPP=individual.hpp patch.hpp
 LIBS=yaml-cpp
 
 
@@ -12,9 +12,7 @@ all : $(EXE)
 
 
 $(EXE): $(CPP) $(HPP)
-	g++ -ggdb -std=c++11 -Wall -O3 -o $@ $(CPP) -l$(LIBS)
-#	g++ -std=c++11 -Wall -O3 -o $(EXE) $(CPP)
-
+	g++ -ggdb -std=c++17 -Wall -O3 -o $@ $(CPP) -l$(LIBS)
 
 .PHONY :
 	clean

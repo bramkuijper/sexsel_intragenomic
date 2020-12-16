@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <yaml-cpp/yaml.h>
 #include "individual.hpp"
+#include "patch.hpp"
 
 // set up the random number generator using a good way of getting random seed
 std::random_device rd;
@@ -25,10 +26,8 @@ std::uniform_real_distribution<> uniform(0.0,1.0);
 std::bernoulli_distribution discrete01(0.5);
 
 // parameters
-int const nm_max = 10; // max males per patch
-int const nf_max = 10; // max females per patch
-int const clutch_max = 50; // maximum clutch size
-int const n_patches = 5000; // maximum number patches
+int clutch_max = 50; // maximum clutch size
+int n_patches = 50; // maximum clutch size
 int max_generations = 100;
 int skip = 10;
 
@@ -40,6 +39,7 @@ double init_p = 0.0; // initial value of preference
 double init_tprime = 0.0; // initial value of ornament cond-dep 
 double p_high = 0.0; // prob male is high quality
 double l = 0.0; // probability female mates locally
+double base_surv = 0.0; // baseline mortality
 double base_mort = 0.0; // baseline mortality
 double a = 0.0; // efficacy of mate choice
 double cp = 0.0; // cost of female preference
@@ -70,41 +70,20 @@ enum Expression {
 };
 
 // who controls expression of p
+// again, these are parameters that are
+// set once the simulation reads in a yaml file 
 Expression control_p = offspr;
 // who controls expression of t
 Expression control_t = offspr;
 // who controls expression of t'
 Expression control_tprime = offspr;
 
-// an individual patch of the metapopulation
-struct Patch {
-
-    // 1. breeders: 
-    // array for the female breeders in the local patch
-    Individual breedersF[nf_max];
-    // array for the male breeders in the local patch
-    Individual breedersM[nm_max];
-   
-    // 2. juveniles:
-    // the female juveniles that remain in their native patch
-    Individual phil_juvsF[nf_max * clutch_max];
-    // the male juveniles that remain in their native patch
-    Individual phil_juvsM[nf_max * clutch_max];
-
-    // any dispersing juveniles will be put in the global vectors
-    // below
-    int njuvsF;
-    int njuvsM;
-
-};
-
 // (empty) vector of dispersing female juveniles
 std::vector <Individual> disp_juvsF;
 // (empty) vector of dispersing male juveniles
 std::vector <Individual> disp_juvsM;
 
-// create a metapopulation of patches
-Patch meta_population[n_patches];
+std::vector <Patch> meta_population;
 
 // initializes parameters from the command line
 void init_pars_from_cmd(int arc, char **argv)
@@ -117,23 +96,24 @@ void init_pars_from_cmd(int arc, char **argv)
     p_high = atof(argv[6]);
     d[0] = atof(argv[7]); // dm
     d[1] = atof(argv[8]); // df
-    base_mort = atof(argv[9]);
-    a = atof(argv[10]);
-    cp = atof(argv[11]);
-    cs = atof(argv[12]);
-    k = atof(argv[13]);
-    fl = atof(argv[14]);
-    fh = atof(argv[15]);
-    control_p = static_cast<Expression>(atoi(argv[16]));
-    control_t = static_cast<Expression>(atoi(argv[17]));
-    control_tprime = static_cast<Expression>(atoi(argv[18]));
-    mu_t = atof(argv[19]);
-    mu_p = atof(argv[20]);
-    mu_tprime = atof(argv[21]);
-    sdmu_t = atof(argv[22]);
-    sdmu_p = atof(argv[23]);
-    sdmu_tprime = atof(argv[24]);
-    file_basename = argv[25];
+    base_surv = atof(argv[9]);
+    base_mort = atof(argv[10]);
+    a = atof(argv[11]);
+    cp = atof(argv[12]);
+    cs = atof(argv[13]);
+    k = atof(argv[14]);
+    fl = atof(argv[15]);
+    fh = atof(argv[16]);
+    control_p = static_cast<Expression>(atoi(argv[17]));
+    control_t = static_cast<Expression>(atoi(argv[18]));
+    control_tprime = static_cast<Expression>(atoi(argv[19]));
+    mu_t = atof(argv[20]);
+    mu_p = atof(argv[21]);
+    mu_tprime = atof(argv[22]);
+    sdmu_t = atof(argv[23]);
+    sdmu_p = atof(argv[24]);
+    sdmu_tprime = atof(argv[25]);
+    file_basename = argv[26];
 }
 
 // preferred method: initialize parameter
@@ -227,6 +207,15 @@ void init_pars_from_yaml(std::string const &yaml_file_name)
         fail_param = "df";
     }
     
+    if (param_file["base_surv"]) {
+        base_surv = param_file["base_surv"].as<double>();
+    }
+    else
+    {
+        fail = true;
+        fail_param = "base_surv";
+    }
+    
     if (param_file["base_mort"]) {
         base_mort = param_file["base_mort"].as<double>();
     }
@@ -235,7 +224,7 @@ void init_pars_from_yaml(std::string const &yaml_file_name)
         fail = true;
         fail_param = "base_mort";
     }
-    
+
     if (param_file["a"]) {
         a = param_file["a"].as<double>();
     }
@@ -388,6 +377,24 @@ void init_pars_from_yaml(std::string const &yaml_file_name)
         fail = true;
         fail_param = "max_generations";
     }
+    
+    if (param_file["n_patches"]) {
+        n_patches = param_file["n_patches"].as<int>();
+    }
+    else
+    {
+        fail = true;
+        fail_param = "n_patches";
+    }
+    
+    if (param_file["clutch_max"]) {
+        clutch_max = param_file["clutch_max"].as<int>();
+    }
+    else
+    {
+        fail = true;
+        fail_param = "clutch_max";
+    }
 
     if (fail)
     {
@@ -404,31 +411,46 @@ void initialize_population()
     // loop through all the patches
     for (int patch_idx = 0; patch_idx < n_patches; ++patch_idx)
     {
+        // initialize an empty patch
+        Patch deme_i{};
+
         // loop through all the females in the patch
         for (int female_idx = 0; female_idx < nf; ++female_idx)
         {
+            // initialize female
+            Individual female_i{};
+
             // now assign initial values to each allele
             for (int allele_idx = 0; allele_idx < 2; ++allele_idx)
             {
-                meta_population[patch_idx].breedersF[female_idx].t[allele_idx] = init_t;
-                meta_population[patch_idx].breedersF[female_idx].p[allele_idx] = init_p;
-                meta_population[patch_idx].breedersF[female_idx].tprime[allele_idx] = init_tprime;
+                female_i.t[allele_idx] = init_t;
+                female_i.p[allele_idx] = init_p;
+                female_i.tprime[allele_idx] = init_tprime;
             }
 
+            deme_i.breedersF.push_back(female_i);
         }
         
         for (int male_idx = 0; male_idx < nm; ++male_idx)
         {
+            // initialize male
+            Individual male_i{};
+
             for (int allele_idx = 0; allele_idx < 2; ++allele_idx)
             {
-                meta_population[patch_idx].breedersM[male_idx].t[allele_idx] = init_t;
-                meta_population[patch_idx].breedersM[male_idx].p[allele_idx] = init_p;
-                meta_population[patch_idx].breedersM[male_idx].tprime[allele_idx] = init_tprime;
+                male_i.t[allele_idx] = init_t;
+                male_i.p[allele_idx] = init_p;
+                male_i.tprime[allele_idx] = init_tprime;
             }
 
-            meta_population[patch_idx].breedersM[male_idx].envt_quality_high = 
+            male_i.envt_quality_high = 
                 uniform(rng_r) < p_high;
+
+
+            deme_i.breedersM.push_back(male_i);
         }
+
+        meta_population.push_back(deme_i);
     }
 } // end initialize_population()
 
@@ -449,6 +471,7 @@ void write_parameters(std::ofstream &data_file)
         "nf;" << nf << std::endl <<
         "dm;" << d[0] << std::endl <<
         "df;" << d[1] << std::endl <<
+        "base_surv;" << base_surv << std::endl <<
         "base_mort;" << base_mort << std::endl <<
         "a;" << a << std::endl <<
         "cp;" << cp << std::endl <<
@@ -488,6 +511,9 @@ void write_stats_per_timestep(int time_step, std::ofstream &data_file)
 
     for (int patch_idx = 0; patch_idx < n_patches; ++patch_idx)
     {
+        assert(meta_population[patch_idx].breedersF.size() == nf);
+        assert(meta_population[patch_idx].breedersM.size() == nm);
+
         for (int female_idx = 0; female_idx < nf; ++female_idx)
         {
             for (int allele_idx = 0; allele_idx < 2; ++allele_idx)
@@ -505,9 +531,11 @@ void write_stats_per_timestep(int time_step, std::ofstream &data_file)
                 ss_tprime += z * z;
             }
         }
+            
         
         for (int male_idx = 0; male_idx < nm; ++male_idx)
         {
+
             for (int allele_idx = 0; allele_idx < 2; ++allele_idx)
             {
                 z = meta_population[patch_idx].breedersM[male_idx].t[allele_idx];
@@ -682,8 +710,8 @@ void mate_produce_offspring()
         {
             // reset local counts of juveniles in this stack
             // as we will produce them now
-            meta_population[patch_idx].njuvsF = 0;
-            meta_population[patch_idx].njuvsM = 0;
+            meta_population[patch_idx].phil_juvsF.clear();
+            meta_population[patch_idx].phil_juvsM.clear();
 
             // express preference
             p = meta_population[patch_idx].breedersF[female_idx].p_phen; 
@@ -747,6 +775,8 @@ void mate_produce_offspring()
                 // decide sex randomly
                 kid_is_female = discrete01(rng_r);
 
+//                std::cout << kid_is_female << std::endl;
+
                 if (uniform(rng_r) < d[kid_is_female]) // kid disperses
                 {
                     if (kid_is_female)
@@ -764,17 +794,18 @@ void mate_produce_offspring()
                     {
                         // assign kid to stack of philopatric juvenile females
                         meta_population[patch_idx].
-                            phil_juvsF[meta_population[patch_idx].njuvsF++] = Kid;
+                            phil_juvsF.push_back(Kid);
                     }
                     else
                     {
                         // assign kid to stack of philopatric juvenile males
                         meta_population[patch_idx].
-                            phil_juvsM[meta_population[patch_idx].njuvsM++] = Kid;
+                            phil_juvsM.push_back(Kid);
+
                     }
                     
-                    assert(meta_population[patch_idx].njuvsF < nf_max * clutch_max);
-                    assert(meta_population[patch_idx].njuvsM < nf_max * clutch_max);
+                    assert(meta_population[patch_idx].phil_juvsM.size() < nf * clutch_max);
+                    assert(meta_population[patch_idx].phil_juvsF.size() < nf * clutch_max);
                 }
 
             } // end for for (int egg_i = 0; egg_i < clutch_max; ++egg_i)
@@ -799,6 +830,8 @@ void adult_mortality_replacement()
 
     bool envt_high;
 
+    double survival_prob_males;
+
     // auxiliary variables for the number 
     // of juvenile male and female immigrants
     // available in the local patch
@@ -816,24 +849,21 @@ void adult_mortality_replacement()
         nm_imm_local = nm_imm_total / n_patches;
         nf_imm_local = nf_imm_total / n_patches;
                     
-        assert(meta_population[patch_idx].njuvsF < nf_max * clutch_max);
-        assert(meta_population[patch_idx].njuvsM < nf_max * clutch_max);
-
         // loop through all females in a particular site
         for (int female_idx = 0; female_idx < nf; ++female_idx)
         {
             p = meta_population[patch_idx].breedersF[female_idx].p_phen;
 
-            // female mortality affected by cost of preference
+            // female survival affected by cost of preference
             if (uniform(rng_r) < 
-                    base_mort + 
-                    (1.0 - base_mort) * (1.0 - exp(-cp * p * p)))
+                    base_mort + (1.0 - base_mort) * (1.0 - (base_surv + (1.0 - base_surv) * exp(-cp * p * p))))
             {
                 // female dies.
+//                std::cout << meta_population[patch_idx].njuvsF << std::endl;
 
                 // choose immigrant rathern than local female
                 if (uniform(rng_r) < (double) nf_imm_local  / 
-                        (nf_imm_local + meta_population[patch_idx].njuvsF))
+                        (nf_imm_local + meta_population[patch_idx].phil_juvsF.size()))
                 {
                     assert(disp_juvsF.size() > 0);
 
@@ -848,15 +878,15 @@ void adult_mortality_replacement()
                 }
                 else
                 {
-                    assert(meta_population[patch_idx].njuvsF > 0);
+                    assert(meta_population[patch_idx].phil_juvsF.size() > 0);
 
                     std::uniform_int_distribution<int> 
-                        local_female_sampler(0, meta_population[patch_idx].njuvsF - 1);
+                        local_female_sampler(0, meta_population[patch_idx].phil_juvsF.size() - 1);
 
                     int sampled_juvF = local_female_sampler(rng_r);
 
                     assert(sampled_juvF >= 0);
-                    assert(sampled_juvF < meta_population[patch_idx].njuvsF);
+                    assert(sampled_juvF < meta_population[patch_idx].phil_juvsF.size());
 
                     // assign one of the local female juveniles to this spot
                     meta_population[patch_idx].breedersF[female_idx] = 
@@ -866,11 +896,9 @@ void adult_mortality_replacement()
                     // individual from the stack and then reducing
                     // the count
                     meta_population[patch_idx].phil_juvsF[sampled_juvF] = 
-                        meta_population[patch_idx].
-                            phil_juvsF[meta_population[patch_idx].njuvsF - 1];
+                        meta_population[patch_idx].phil_juvsF.back();
 
-                    // reduce the number of local female juveniles
-                    --meta_population[patch_idx].njuvsF;
+                    meta_population[patch_idx].phil_juvsF.pop_back();
                 }
             } // end if (uniform(rng_r)
         } // end female_idx
@@ -888,18 +916,22 @@ void adult_mortality_replacement()
             //
             // obviously the mortality probability 
             // c s^2/(1+kv) will be larger than 1
-            // when s has a large magnitude, but that does not 
-            // matter as indeed individual will then always die
+            // when s has a large magnitude, but beyond  
+            // changing the curvature of the function somewhat
+            // the effect is the same: the individual will die
+            survival_prob_males = 1.0 - std::clamp(cs * s * s/(1.0 + k * envt_high),0.0,1.0);
+
+
             if (uniform(rng_r) < 
-                    base_mort + 
-                    (1.0 - base_mort) * cs * s * s/(1.0 + k * envt_high))
+                    base_mort + (1.0 - base_mort) * (1.0 - (base_surv + 
+                    (1.0 - base_surv) * survival_prob_males)))
             {
                 // male dies
                 assert(nm_imm_local >= 0);
 
                 // choose immigrant rathern than local female
                 if (uniform(rng_r) < (double) nm_imm_local  / 
-                        (nm_imm_local + meta_population[patch_idx].njuvsM))
+                        (nm_imm_local + meta_population[patch_idx].phil_juvsM.size()))
                 {
                     assert(disp_juvsM.size() > 0);
 
@@ -914,17 +946,17 @@ void adult_mortality_replacement()
                 }
                 else
                 {
-                    assert(meta_population[patch_idx].njuvsM > 0);
+                    assert(meta_population[patch_idx].phil_juvsM.size() > 0);
 
-                    assert(meta_population[patch_idx].njuvsM < nf * clutch_max);
+                    assert(meta_population[patch_idx].phil_juvsM.size() < nf * clutch_max);
 
                     std::uniform_int_distribution<int> 
-                        local_male_sampler(0, meta_population[patch_idx].njuvsM - 1);
+                        local_male_sampler(0, meta_population[patch_idx].phil_juvsM.size() - 1);
 
                     int sampled_juvM = local_male_sampler(rng_r);
 
                     assert(sampled_juvM >= 0);
-                    assert(sampled_juvM < meta_population[patch_idx].njuvsM);
+                    assert(sampled_juvM < meta_population[patch_idx].phil_juvsM.size());
 
                     // assign one of the local female juveniles to this spot
                     meta_population[patch_idx].breedersM[male_idx] = 
@@ -934,13 +966,12 @@ void adult_mortality_replacement()
                     // individual from the stack and then reducing
                     // the count
                     meta_population[patch_idx].phil_juvsM[sampled_juvM] = 
-                        meta_population[patch_idx].
-                            phil_juvsM[meta_population[patch_idx].njuvsM - 1];
+                        meta_population[patch_idx].phil_juvsM.back();
 
                     // reduce the number of local female juveniles
-                    --meta_population[patch_idx].njuvsM;
+                    meta_population[patch_idx].phil_juvsM.pop_back();
                 }
-            } // end if if (uniform(rng_r) < base_mort + ...
+            } // end if if (uniform(rng_r) < base_surv + ...
         }
     }
 } // end adult_mortality_replacement()
