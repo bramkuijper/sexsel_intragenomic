@@ -41,7 +41,7 @@ all_params["nf"] <- 12 - all_params["nm"]
 # finally, we keep population size constant
 # and only vary the number of patches, which
 # decrease the more inhabitants there are
-all_params["n_patches"] <- 5000 / all_params$nf  
+all_params["n_patches"] <- round(5000 / all_params$nf)
 
 
 #setwd("/Users/bram/Projects/sexsel_intragenomic/src/ibm" )
