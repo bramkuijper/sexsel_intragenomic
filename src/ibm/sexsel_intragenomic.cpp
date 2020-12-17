@@ -842,7 +842,7 @@ void adult_mortality_replacement()
 
     bool envt_high;
 
-    double survival_prob_males;
+    double mortality_prob_males;
 
     // auxiliary variables for the number 
     // of juvenile male and female immigrants
@@ -931,12 +931,11 @@ void adult_mortality_replacement()
             // when s has a large magnitude, but beyond  
             // changing the curvature of the function somewhat
             // the effect is the same: the individual will die
-            survival_prob_males = 1.0 - std::clamp(cs * s * s/(1.0 + k * envt_high),0.0,1.0);
+            mortality_prob_males = 1.0 - std::clamp(cs * s * s/(1.0 + k * envt_high),0.0,1.0);
 
 
             if (uniform(rng_r) < 
-                    base_mort + (1.0 - base_mort) * (1.0 - (base_surv + 
-                    (1.0 - base_surv) * survival_prob_males)))
+                    base_mort + (1.0 - base_mort) * mortality_prob_males)
             {
                 // male dies
                 assert(nm_imm_local >= 0);
