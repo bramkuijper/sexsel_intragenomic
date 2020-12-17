@@ -12,12 +12,6 @@ CFLAGS=-ggdb -std=c++17 -Wall -O3
 all : $(EXE)
 
 HOST=$(shell hostname | grep athena)
-
-$(info $(HOST))
-$(info "kut")
-$(info "kut")
-$(info $(HOME))
-
 compileCMD=""
 ifeq ($(HOST),)
 compileCMD=g++ $(CFLAGS) -o $@ $(CPP) -l$(LIBS)
