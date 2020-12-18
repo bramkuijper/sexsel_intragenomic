@@ -85,6 +85,10 @@ std::vector <Individual> disp_juvsM;
 
 std::vector <Patch> meta_population;
 
+// statistics regarding the average survival
+// probability of males and females
+double p_survival[2]
+
 // initializes parameters from the command line
 void init_pars_from_cmd(int arc, char **argv)
 {
@@ -686,6 +690,7 @@ void create_offspring(
     }
 
     offspring.s = t_phen + tprime_phen * offspring.envt_quality_high;
+
 } // end create offspring
 
 void mate_produce_offspring()
@@ -769,6 +774,8 @@ void mate_produce_offspring()
                 }
                 else
                 {
+                    // offspring does not survive
+                    // continue to the next egg
                     if (uniform(rng_r) > fl)
                     {
                         continue;
@@ -931,7 +938,7 @@ void adult_mortality_replacement()
             // when s has a large magnitude, but beyond  
             // changing the curvature of the function somewhat
             // the effect is the same: the individual will die
-            mortality_prob_males = 1.0 - std::clamp(cs * s * s/(1.0 + k * envt_high),0.0,1.0);
+            mortality_prob_males = std::clamp(cs * s * s/(1.0 + k * envt_high),0.0,1.0);
 
 
             if (uniform(rng_r) < 
