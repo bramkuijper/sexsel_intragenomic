@@ -721,15 +721,14 @@ void mate_produce_offspring()
         assert(meta_population[patch_idx].breedersF.size() > 0);
         assert(meta_population[patch_idx].breedersF.size() == nf);
 
+        // reset local counts of juveniles in this stack
+        // as we will produce them now
+        meta_population[patch_idx].phil_juvsF.clear();
+        meta_population[patch_idx].phil_juvsM.clear();
 
         // loop through all females in a particular site
         for (int female_idx = 0; female_idx < nf; ++female_idx)
         {
-            // reset local counts of juveniles in this stack
-            // as we will produce them now
-            meta_population[patch_idx].phil_juvsF.clear();
-            meta_population[patch_idx].phil_juvsM.clear();
-
             // express preference
             p = meta_population[patch_idx].breedersF[female_idx].p_phen; 
 
