@@ -599,16 +599,13 @@ void create_offspring(
         Individual const &father
         )
 {
-    for (int allele_idx = 0; allele_idx < 2; ++allele_idx)
-    {
-        // inherit alleles
-        offspring.p[0] = mutate(mother.p[discrete01(rng_r)], mu_p, sdmu_p);
-        offspring.p[1] = mutate(father.p[discrete01(rng_r)], mu_p, sdmu_p);
-        offspring.t[0] = mutate(mother.t[discrete01(rng_r)], mu_t, sdmu_t);
-        offspring.t[1] = mutate(father.t[discrete01(rng_r)], mu_t, sdmu_t);
-        offspring.tprime[0] = mutate(mother.tprime[discrete01(rng_r)], mu_tprime, sdmu_tprime);
-        offspring.tprime[1] = mutate(father.tprime[discrete01(rng_r)], mu_tprime, sdmu_tprime);
-    }
+    // inherit alleles
+    offspring.p[0] = mutate(mother.p[discrete01(rng_r)], mu_p, sdmu_p);
+    offspring.p[1] = mutate(father.p[discrete01(rng_r)], mu_p, sdmu_p);
+    offspring.t[0] = mutate(mother.t[discrete01(rng_r)], mu_t, sdmu_t);
+    offspring.t[1] = mutate(father.t[discrete01(rng_r)], mu_t, sdmu_t);
+    offspring.tprime[0] = mutate(mother.tprime[discrete01(rng_r)], mu_tprime, sdmu_tprime);
+    offspring.tprime[1] = mutate(father.tprime[discrete01(rng_r)], mu_tprime, sdmu_tprime);
 
     // set environment for this offspring
     //
