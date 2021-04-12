@@ -87,7 +87,7 @@ std::vector <Patch> meta_population;
 
 // statistics regarding the average survival
 // probability of males and females
-double p_survival[2]
+double p_survival[2];
 
 // initializes parameters from the command line
 void init_pars_from_cmd(int arc, char **argv)

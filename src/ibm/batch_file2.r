@@ -17,9 +17,10 @@ params$cs <- 0.01
 params$k <- 0.5
 params$fl <- 0.1
 params$fh <- 1.0
-#params$control_t <- seq(0,4,1)
-params$control_t <- 0
+params$control_t <- seq(0,4,1)
+#params$control_p <- seq(0,4,1)
 params$control_p <- 0
+#params$control_tprime <- seq(0,4,1)
 params$control_tprime <- 0
 params$mu_t <- 0.02
 params$mu_p <- 0.02
@@ -46,7 +47,7 @@ all_params["nf"] <- 12 - all_params["nm"]
 # finally, we keep population size constant
 # and only vary the number of patches, which
 # decrease the more inhabitants there are
-all_params["n_patches"] <- 5
+all_params["n_patches"] <- round(5000 / all_params$nf)
 
 
 #setwd("/Users/bram/Projects/sexsel_intragenomic/src/ibm" )

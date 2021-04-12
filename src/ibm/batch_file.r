@@ -3,19 +3,23 @@ library("simulation.utils")
 params <- list()
 
 params$nm <- seq(2,10,1)
-params$init_t <- 0.01
-params$init_p <- 0.05
-params$init_tprime <- 0.01
-params$p_high <- 0.2
-params$dm <- 0.2
+params$init_t <- 0.1
+params$init_p <- 0.2
+params$init_tprime <- 0.1
+params$p_high <- 0.5
+params$dm <- 0.8
 params$df <- 0.2
 params$base_surv <- 0.02
 params$base_mort <- 0.02
 params$a <- c(1)
-params$cp <- 0.1
-params$cs <- 0.5
+params$cp <- 0.01
+params$cs <- 0.1
+
+# survival declines less fast for high quality males
+# according to 1 - f(s)
+# where f(s) = c * s^2 / (1 + k v)
 params$k <- 0.5
-params$fl <- 0.9
+params$fl <- 0.6
 params$fh <- 1.0
 params$control_t <- seq(0,4,1)
 params$control_p <- 0

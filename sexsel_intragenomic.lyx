@@ -1,0 +1,314 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+%\usepackage{apjfonts}
+%\usepackage{newtxmath}
+%\usepackage{pxfonts}
+%\usepackage[T1]{fontenc}
+\usepackage{mathpazo}
+%\usepackage{newpxtext,newpxmath}
+\definecolor{slateblue}{RGB}{17, 83,128}
+\usepackage{doi}
+\allowdisplaybreaks
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "times" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks true
+\pdf_pdfborder true
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\pdf_quoted_options "urlcolor=slateblue,citecolor=slateblue,linkcolor=slateblue"
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine natbib
+\cite_engine_type authoryear
+\biblio_style plainnat
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 2.5cm
+\topmargin 2.5cm
+\rightmargin 2.5cm
+\bottommargin 2.5cm
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Intragenomic conflict over mating preferences and ornament investment
+\end_layout
+
+\begin_layout Section
+What is happening with madumnal, maternal etc.
+\end_layout
+
+\begin_layout Standard
+First of all, everything is a tradeoff between fecundity (benefits of ornamentat
+ion) vs adult survival (costs of ornamentation).
+ We can write most sexual selection problems such as investment in ornamentation
+ 
+\begin_inset Formula $t$
+\end_inset
+
+ as a tradeoff problem, where the following should apply
+\begin_inset Formula 
+\begin{align*}
+\mu^{\prime}(t)/\mu(t) & =f^{\prime}(t)/f(t).
+\end{align*}
+
+\end_inset
+
+I.e., the marginal mortality costs 
+\begin_inset Formula $\mu^{\prime}(t)/\mu(t)$
+\end_inset
+
+ should be equal to the marginal fecundity gains 
+\begin_inset Formula $f^{\prime}(t)/f(t)$
+\end_inset
+
+.
+ Here, primes (
+\begin_inset Formula $^{\prime}$
+\end_inset
+
+) note derivatives, reflecting the cost or benefit of a slightly higher
+ investment in ornamentation.
+\end_layout
+
+\begin_layout Standard
+However, in a viscous population like the one we are studying, it is slightly
+ different
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\overbrace{\left(r_{\mathrm{self}}-r_{\mathrm{competing\ adults}}\right)}^{A}\frac{\mu^{\prime}\left(t\right)}{\mu\left(t\right)} & =\overbrace{\left(r_{\text{own offspring}}-r_{\text{competing offspring}}\right)}^{B}\frac{f^{\prime}\left(t\right)}{f\left(t\right)}
+\end{align*}
+
+\end_inset
+
+where the left-hand side (lhs) reflects the marginal mortality cost of ornamenta
+tion and the right-hand side (rhs) reflects the marginal fecundity benefit
+ of ornamentation in terms of matings.
+ The mortality cost on the lhs is discounted by term 
+\begin_inset Formula $A$
+\end_inset
+
+, which considers the fact that if competing adults are closely related
+ to the focal adult (hence 
+\begin_inset Formula $A$
+\end_inset
+
+ is small), then there is only a limited cost of dying, as it is likely
+ that the focal adult will be replaced by a relative.
+ Similarly, also the fecundity benefit on the rhs is discounted by the fact
+ that siring a lot of offspring will displace those offspring from relatives.
+ Hence, if those competing offspring are closely related to the focal's
+ own offspring (i.e., 
+\begin_inset Formula $B$
+\end_inset
+
+ is small), then it takes a lot of investment in ornamentation to make any
+ gains relative to a well mixed population.
+ 
+\end_layout
+
+\begin_layout Standard
+The different relatedness coefficients are weighed differently dependent
+ on the type of genetic control and the degree of dispersal.
+\end_layout
+
+\begin_layout Paragraph
+Offspring
+\end_layout
+
+\begin_layout Standard
+In your figure, if one is a male offspring, then we find that 
+\end_layout
+
+\begin_layout Section
+The model
+\end_layout
+
+\begin_layout Subsection
+Within-patch variation
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $\bar{f}\left(p\right)$
+\end_inset
+
+ be the average fecundity of a female with preference 
+\begin_inset Formula $p$
+\end_inset
+
+, so that we have
+\begin_inset Formula 
+\begin{align*}
+\bar{f}\left(p\right) & =\phi\left(h\mid p;t,t^{\prime}\right)k_{\mathrm{g}}+\phi\left(\ell\mid p;t,t^{\prime}\right)k_{\mathrm{b}}
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $\phi\left(\mathrm{h}\mid p;t,t^{\prime}\right)$
+\end_inset
+
+ is the probability that a female with preference 
+\begin_inset Formula $p$
+\end_inset
+
+ mates with a high quality male.
+ High quality males can either be sampled locally (with probability 
+\begin_inset Formula $1-r$
+\end_inset
+
+) or at a random remote site, with probability 
+\begin_inset Formula $1-r$
+\end_inset
+
+.
+ Let 
+\begin_inset Formula $\psi\left(s|p\right)=\exp[aps]$
+\end_inset
+
+ be the probality that a male with ornament 
+\begin_inset Formula $s$
+\end_inset
+
+ mates with the focal female with preference 
+\begin_inset Formula $p$
+\end_inset
+
+, we have (see also p100 in 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "Iwasa1999a"
+literal "false"
+
+\end_inset
+
+).
+ 
+\begin_inset Formula 
+\begin{align*}
+\psi\left(\mathrm{h}\mid p^{\text{foc,f}};t,t^{\prime}\right) & =\frac{q\left(\mathrm{h}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{\sum\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid x\right)\right]q\left(x\right)\mathrm{d}x}\\
+ & =r\sum_{n_{\mathrm{m,}i}=0}^{n_{\mathrm{m}}}q(n_{\mathrm{mh},i})\frac{n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{{\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}\\
+ & +\left(1-r\right)r\sum_{n_{\mathrm{m,}i}=0}^{n_{\mathrm{m}}}q(n_{\mathrm{mh},i})\frac{n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{{\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}
+\end{align*}
+
+\end_inset
+
+which assumes that females first decide to either mate locally or remotely
+ and then sample on a single remote patch.
+ This is not the whole story ho
+\end_layout
+
+\begin_layout Standard
+Other functions will be considered as well, where females sequentially choose
+ among males of different qualities (see derivations in 
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "Janetos1980"
+literal "false"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+w_{\mathrm{ff}} & =1-\mu\left(p^{\mathrm{foc,f}}\right)+\frac{1}{4}\left[\frac{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{f}}\left(p^{\mathrm{loc,f}}\right)}{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{f}}\bar{f}\left(p\right)}+\frac{d_{\mathrm{f}}\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{f}}\left(p\right)}{\bar{f}\left(p\right)}\right]\\
+w_{\mathrm{fm}} & =\frac{1}{4}\left[\frac{n_{\mathrm{m}}\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{m}}\left(t\right)}{n_{\mathrm{f}}\left(\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{m}}\bar{f}\left(p\right)\right)}+\frac{d_{\mathrm{f}}\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{m}}\left(t\right)}{\bar{f}\left(p\right)}\right]\\
+w_{\mathrm{mf}} & =\frac{1}{4}\left[\frac{\left(1-d_{\mathrm{m}}\right)\bar{m}\left(p^{\mathrm{loc,m}}\right)\mu_{\mathrm{f}}\left(p^{\mathrm{loc,m}}\right)}{\left(\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{m}}\bar{f}\left(p\right)\right)}+\frac{d_{\mathrm{f}}\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{m}}\left(t\right)}{\bar{f}\left(p\right)}\right]\\
+w_{\mathrm{mm}} & =1-\mu\left(t\right)+
+\end{align*}
+
+\end_inset
+
+
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintCited"
+bibfiles "/home/bram/Projects/databases/references"
+options "bram"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
