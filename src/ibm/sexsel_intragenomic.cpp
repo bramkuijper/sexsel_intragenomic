@@ -846,6 +846,7 @@ void adult_mortality_replacement()
     bool envt_high;
 
     double mortality_prob_males;
+    double mortality_prob_females;
 
     // auxiliary variables for the number 
     // of juvenile male and female immigrants
@@ -869,9 +870,11 @@ void adult_mortality_replacement()
         {
             p = meta_population[patch_idx].breedersF[female_idx].p_phen;
 
-            // female survival affected by cost of preference
-            if (uniform(rng_r) < 
-                    base_mort + (1.0 - base_mort) * (1.0 - (base_surv + (1.0 - base_surv) * exp(-cp * p * p))))
+            // exp(-cp * p^2) is survival probability
+            mortality_prob_females = 1.0 - (base_surv + (1.0 - base_surv) * exp(-cp * p * p));
+
+            // female mortality affected by cost of preference
+            if (uniform(rng_r) < base_mort + (1.0 - base_mort) * mortality_prob_females)
             {
                 // female dies.
 //                std::cout << meta_population[patch_idx].njuvsF << std::endl;
