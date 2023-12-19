@@ -230,7 +230,7 @@ where
 
  mates with a high quality male.
  High quality males can either be sampled locally (with probability 
-\begin_inset Formula $1-r$
+\begin_inset Formula $r$
 \end_inset
 
 ) or at a random remote site, with probability 
@@ -258,8 +258,7 @@ literal "false"
 
 \end_inset
 
-).
- 
+)
 \begin_inset Formula 
 \begin{align*}
 \phi\left(\mathrm{h}\mid p^{\text{foc,f}};t,t^{\prime}\right) & =\frac{q\left(\mathrm{h}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{\sum\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid x\right)\right]q\left(x\right)\mathrm{d}x}\\
