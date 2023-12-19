@@ -1,5 +1,5 @@
 EXE=sexselintra.exe
-CPP=numerical.cpp main.cpp
+CPP=sexselintra.cpp main.cpp
 
 CXX=g++
 CXXFLAGS=-Wall -ggdb -std=c++20

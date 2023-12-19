@@ -1,5 +1,5 @@
 #include "parameters.hpp"
-#include "numerical.hpp"
+#include "sexselintra.hpp"
 
 int main(int argc, char **argv)
 {
