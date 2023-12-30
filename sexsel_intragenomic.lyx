@@ -287,64 +287,115 @@ literal "false"
 \end_layout
 
 \begin_layout Subsection
-Transition matrices
+Philopatric transition probabilities for resident males
 \end_layout
 
 \begin_layout Standard
-Let 
-\begin_inset Formula $x(n_{\mathrm{h},t},n_{\mathrm{h},t+1})$
+As males vary in quality, individuals experience a heterogeneous environment
+ through the variation in numbers of high-quality males due their births
+ and deaths.
+ To account for this heterogeneity, let 
+\begin_inset Formula $x(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right))$
 \end_inset
 
- reflect the probability that a patch currently containing 
-\begin_inset Formula $n_{\mathrm{h},t}$
+ denote the probability that a patch which contains 
+\begin_inset Formula $n_{\mathrm{h},\tau}$
 \end_inset
 
- high-quality males (and 
-\begin_inset Formula $n_{\ell,t}=n-n_{\mathrm{h},t}$
+ high-quality males at time step 
+\begin_inset Formula $\tau$
 \end_inset
 
- low-quality males) contains 
-\begin_inset Formula $n_{\mathrm{h},t+1}$
+ (and hence also contains 
+\begin_inset Formula $n_{\ell,\tau}\equiv n-n_{\mathrm{h},\tau}$
 \end_inset
 
- high-quality males in the next time step.
- The probability 
-\begin_inset Formula $y_{\mathrm{h},k}\left(n_{\mathrm{h},t}\right)$
+ low-quality males) will contain 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}$
 \end_inset
 
- that 
+ high-quality males at the next time step 
+\begin_inset Formula $\tau+1$
+\end_inset
+
+.
+ We have
+\begin_inset Formula 
+\begin{align}
+x\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)= & \sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
+ & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)z\left(n_{h,\tau+1}-n_{h,\tau}-k\mid k+j\right),\label{eq:xnhtplus1}
+\end{align}
+
+\end_inset
+
+where 
+\begin_inset Formula $y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)$
+\end_inset
+
+ reflects the probability that a number of 
 \begin_inset Formula $k$
 \end_inset
 
  high-quality males out of 
-\begin_inset Formula $n_{\mathrm{h},t}$
+\begin_inset Formula $n_{\mathrm{h},\tau}$
 \end_inset
 
- high-quality males die is given by
+ high-quality males die.
+ Here, 
+\begin_inset Formula $\mu_{\mathrm{m},h}\left(t\right)$
+\end_inset
+
+ denotes the mortality rate of a high-quality male with ornament size 
+\begin_inset Formula $t$
+\end_inset
+
+, which is given by
 \begin_inset Formula 
 \begin{align*}
-y_{\mathrm{h},k}\left(n_{\mathrm{h},t}\right) & ={k \choose n_{\mathrm{h},t}}\left[\mu_{\mathrm{m,h}}\left(t\right)\right]^{k}\left[1-\mu_{\mathrm{m,h}}\left(t\right)\right]^{n_{\mathrm{h},t}-k}\\
-y_{\mathrm{\ell},k}\left(n_{\mathrm{\ell},t}\right) & ={k \choose n_{\mathrm{\ell},t}}\left[\mu_{\mathrm{m,\ell}}\left(t\right)\right]^{k}\left[1-\mu_{\mathrm{m,\ell}}\left(t\right)\right]^{n_{\mathrm{\ell},t}-k}.
+y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right) & ={n_{\mathrm{h},\tau} \choose k}\left[\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right]^{k}\left[1-\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right]^{n_{h,\tau}-k}.
+\end{align*}
+
+\end_inset
+
+Similarly, let 
+\begin_inset Formula $y_{\ell}\left(j\mid n_{\mathrm{\ell},\tau},\mu_{\mathrm{m,\ell}}\left(t\right)\right)$
+\end_inset
+
+ denote the probability that 
+\begin_inset Formula $j$
+\end_inset
+
+ low-quality males out of 
+\begin_inset Formula $n_{\ell,\tau}$
+\end_inset
+
+ low-quality males die:
+\begin_inset Formula 
+\begin{align*}
+y_{\mathrm{\ell}}\left(j\mid n_{\mathrm{\ell},\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right) & ={n_{\mathrm{\ell},\tau} \choose j}\left[\mu_{\mathrm{m,\ell}}\left(t\right)\right]^{j}\left[1-\mu_{\mathrm{m,\ell}}\left(t\right)\right]^{n_{\mathrm{\ell},\tau}-j}.
 \end{align*}
 
 \end_inset
 
 The probability 
-\begin_inset Formula $z\left(n_{v},n_{\mathrm{new,h}}\right)$
+\begin_inset Formula $z\left(n_{\mathrm{new,h}}\mid n_{\mathrm{v}}\right)$
 \end_inset
 
  that out of a total number of 
-\begin_inset Formula $n_{v}$
+\begin_inset Formula $n_{\mathrm{v}}$
 \end_inset
 
- vacant breeding positions, a number of 
+ vacant male breeding positions, a number of 
 \begin_inset Formula $n_{\mathrm{new,h}}$
 \end_inset
 
- newborn breeders are of high quality is then given by
+ newborn males are of high quality is then given by
 \begin_inset Formula 
 \begin{align*}
-z\left(n_{v},n_{\mathrm{new,h}}\right) & ={n_{\mathrm{new,h}} \choose n_{v}}b_{\mathrm{h}}^{n_{\mathrm{new,h}}}\left(1-b_{\mathrm{h}}\right)^{n_{v}-n_{\mathrm{new,h}}},
+z\left(n_{\mathrm{new,h}}\mid n_{\mathrm{v}}\right) & =\begin{cases}
+{n_{\mathrm{new,h}} \choose n_{\mathrm{v}}}b_{\mathrm{h}}^{n_{\mathrm{new,h}}}\left(1-b_{\mathrm{h}}\right)^{n_{\mathrm{v}}-n_{\mathrm{new,h}}} & 0\leq n_{\mathrm{new,h}}\leq n_{\mathrm{v}}\\
+0 & \mathrm{otherwise}
+\end{cases},
 \end{align*}
 
 \end_inset
@@ -353,45 +404,106 @@ where
 \begin_inset Formula $b_{\mathrm{h}}$
 \end_inset
 
- is the probability that a high-quality offspring wins competition for a
- local breeding position.
+ is the probability that a high-quality male offspring wins competition
+ for a local breeding position.
+ As quality is not heritable, this is simply a parameter, as 
+\begin_inset Formula $[n_{\mathrm{f}}\bar{f}(p)(1-d_{x})b_{\mathrm{h}}+n_{\mathrm{f}}\bar{f}(p)d_{x}b_{\mathrm{h}}]/[n_{\mathrm{f}}\bar{f}(p)(1-d_{x})\left(b_{\mathrm{h}}+1-b_{\mathrm{h}}\right)+n_{\mathrm{f}}\bar{f}(p)d_{x}\left(b_{\mathrm{h}}+1-b_{\mathrm{h}}\right)]=b_{\mathrm{h}}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
-Consequently, the probability that a patch currently with 
-\begin_inset Formula $n_{\mathrm{h},t}$
+Consequently, eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:xnhtplus1"
+plural "false"
+caps "false"
+noprefix "false"
+
 \end_inset
 
- high-quality breeders has 
-\begin_inset Formula $n_{\mathrm{h,}t+1}$
+) calculates the probability of obtaining 
+\begin_inset Formula $k+j$
 \end_inset
 
- high-quality breeders in the next time step is given by
+ vacancies resulting from the deaths of high and low quality males respectively.
+ As 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}$
+\end_inset
+
+ high-quality males are required and currently 
+\begin_inset Formula $n_{\mathrm{h,}\tau}-k$
+\end_inset
+
+ high-quality males remain, 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}-n_{\mathrm{h},\tau}-k$
+\end_inset
+
+ newborn high quality males need to be sampled.
+\end_layout
+
+\begin_layout Subsection
+Philopatric transition probability for mutant offspring from female breeders
+\end_layout
+
+\begin_layout Standard
+We also want to calculate the expected contribution by a focal female living
+ in a patch currently containing 
+\begin_inset Formula $n_{\mathrm{h},\tau}$
+\end_inset
+
+ high-quality males to mutant male offspring in a patch containing 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}$
+\end_inset
+
+ high-quality males in the next time step.
+ To this end, we have to calculate the focal female mutant's share 
+\begin_inset Formula $x_{\mathrm{f}}^{\mathrm{foc}}$
+\end_inset
+
+ in the transition probability in eq.
+ (
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:xnhtplus1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+) above.
+ If we focus on the expected number of high-quality and low-quality sons
+ born from a focal female we have
 \begin_inset Formula 
-\begin{align*}
-x\left(n_{\mathrm{h},t},n_{\mathrm{h},t+1}\right) & =\sum_{k=0}^{n_{\mathrm{h},t}}y_{\mathrm{h},k}\left(n_{\mathrm{h},t}\right)\sum_{j=0}^{n-n_{\mathrm{h},t}}y_{\mathrm{\ell},j}\left(n-n_{\mathrm{h},t}\right)z\left(k+\ell,n_{\mathrm{h},t+1}-n_{\mathrm{h,}t}-k\right).
-\end{align*}
-
-\end_inset
-
-We also want to calculate the expected contribution of a focal female to
- mutant male offspring in a patch containing 
-\begin_inset Formula $n_{\mathrm{h},t+1}$
-\end_inset
-
- high-quality males in the nex time step.
- We have
-\begin_inset Formula 
-\begin{align*}
-x_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h},t},n_{\mathrm{h},t+1}\right) & =\sum_{k=0}^{n_{\mathrm{h},t}}y_{\mathrm{h},k}\left(n_{\mathrm{h},t}\right)\sum_{j=0}^{n-n_{\mathrm{h},t}}y_{\mathrm{\ell},j}\left(n-n_{\mathrm{h},t}\right)z_{\mathrm{f}}^{\mathrm{foc}}\left(k+\ell,n_{\mathrm{h},t+1}-n_{\mathrm{h,}t}-k\right),
-\end{align*}
+\begin{align}
+x_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right) & =\sum_{n_{\mathrm{h}}^{\mathrm{foc}}=0}^{n_{h,\tau+1}-n_{h,\tau}-k}\left(n_{\mathrm{h}}^{\mathrm{foc}}+n_{\ell}^{\mathrm{foc}}\right)\sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
+ & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
+ & \times z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{h,\tau+1}-n_{h,\tau}-k,k+j\right),\label{eq:xnhtplus1:female:focal}
+\end{align}
 
 \end_inset
 
 where 
+\begin_inset Formula $z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{\mathrm{new,h}},n_{\mathrm{v}}\right)$
+\end_inset
+
+ reflects the probability that the focal contributes 
+\begin_inset Formula $n_{\mathrm{h}}^{\mathrm{foc}}$
+\end_inset
+
+ high-quality offspring out of and 
+\begin_inset Formula $n_{\mathrm{\ell}}^{\mathrm{foc}}$
+\end_inset
+
+ low-quality offspring, or
 \begin_inset Formula 
 \begin{align*}
-z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{v},n_{\mathrm{new,h}},i,j\right) & =\sum_{i=0}^{n_{\mathrm{new,}h}}\sum_{j=0}^{n_{v}-n_{\mathrm{new,}h}}\left(i+j\right){n_{\mathrm{new,h}} \choose n_{v}}{i \choose n_{\mathrm{new,h}}}{j \choose n_{v}-n_{\mathrm{new,h}}}\left(b_{\mathrm{f},\mathrm{h}}^{\mathrm{foc}}\right)^{i}\left(1-b_{\mathrm{f},\mathrm{h}}^{\mathrm{foc}}\right)^{n_{\mathrm{new,h}}-i}\left(b_{\mathrm{f},\ell}^{\mathrm{foc}}\right)^{j}\left(1-b_{\mathrm{f},\mathrm{\ell}}^{\mathrm{foc}}\right)^{n_{v}-n_{\mathrm{new,h}}-i-j}\\
+z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{\mathrm{new,h}},n_{\mathrm{v}}\right) & ={n_{\mathrm{new,h}} \choose n_{v}}{i \choose n_{\mathrm{new,h}}}{j \choose n_{v}-n_{\mathrm{new,h}}}\\
+ & \times\left(b_{\mathrm{f},\mathrm{h}}^{\mathrm{foc}}\right)^{i}\left(1-b_{\mathrm{f},\mathrm{h}}^{\mathrm{foc}}\right)^{n_{\mathrm{new,h}}-i}\left(b_{\mathrm{f},\ell}^{\mathrm{foc}}\right)^{j}\left(1-b_{\mathrm{f},\mathrm{\ell}}^{\mathrm{foc}}\right)^{n_{v}-n_{\mathrm{new,h}}-i-j}\\
 b_{\mathrm{f},\mathrm{h}}^{\mathrm{foc}} & =\frac{\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{foc,f}}\right)t_{h}}{n_{\mathrm{f}}\left[\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{m}}\bar{f}\left(p\right)\right]}\\
 b_{\mathrm{f},\mathrm{\ell}}^{\mathrm{foc}} & =\frac{\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{foc,f}}\right)t_{\ell}}{n_{\mathrm{f}}\left[\left(1-d_{\mathrm{m}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{m}}\bar{f}\left(p\right)\right]}
 \end{align*}
@@ -401,7 +513,38 @@ b_{\mathrm{f},\mathrm{\ell}}^{\mathrm{foc}} & =\frac{\left(1-d_{\mathrm{m}}\righ
 
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Subsection
+Emigrant transition probability for mutant offspring from female breeders
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $u_{\mathrm{f}}^{\mathrm{foc}}$
+\end_inset
+
+ reflect the expected numbers of male offspring born from a mutant female
+ in a patch containing 
+\begin_inset Formula $n_{\mathrm{h},\tau}$
+\end_inset
+
+ local males of high quality who will establish themselves in a patch containing
+ 
+\begin_inset Formula $n_{\mathrm{h}.\tau+1}$
+\end_inset
+
+ high-quality males.
+ We have
+\begin_inset Formula 
+\begin{align*}
+u_{\mathrm{f}}^{\mathrm{foc}} & =
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
 Mutant transition matrix of a mutant female preference 
 \begin_inset Formula $p$
 \end_inset
@@ -411,25 +554,121 @@ Mutant transition matrix of a mutant female preference
 
 \begin_layout Standard
 Let 
-\begin_inset Formula $w_{\mathrm{f}i\mathrm{f}j}$
+\begin_inset Formula $w_{\mathrm{f},n_{\mathrm{h},\tau}\rightarrow\mathrm{f},n_{\mathrm{h},\tau+1}}$
 \end_inset
 
  reflect the expected number of female carriers of the mutant allele that
- persist on a patch with 
-\begin_inset Formula $j$
+ live on a patch with 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}$
 \end_inset
 
- high quality males resulting from a female breeder who currently resides
- on a patch with 
-\begin_inset Formula $i$
+ high-quality males and which result from a female breeder who currently
+ resides on a patch with 
+\begin_inset Formula $n_{\mathrm{h},\tau}$
+\end_inset
+
+ high-quality males.
+ We have
+\begin_inset Formula 
+\begin{align}
+w_{\mathrm{f},n_{\mathrm{h},\tau}\rightarrow\mathrm{f},n_{\mathrm{h},\tau+1}} & =x\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
+ & \times\left[1-\mu_{\mathrm{f}}\left(p^{\mathrm{foc},\mathrm{f}}\right)+\frac{1}{4}\frac{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{f}}\left(p^{\mathrm{loc,f}}\right)}{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{f}}\bar{f}\left(p\right)}\right]\nonumber \\
+ & +\frac{1}{4}d_{\mathrm{f}}\sum_{\nu_{\mathrm{h},\tau}=0}^{n_{\mathrm{m}}}q\left(\nu_{\mathrm{h},\tau}\right)x\left(n_{\mathrm{h},\tau+1}\mid\nu_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)\frac{\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{f}}\left(p\right)}{\bar{f}(p)}\label{eq:evol_p:wff}
+\end{align}
+
+\end_inset
+
+where the first two lines reflect the expected number of mutant female breeders
+ who are established at time 
+\begin_inset Formula $\tau+1$
+\end_inset
+
+ in the local patch: with probability 
+\begin_inset Formula $1-\mu_{\mathrm{f}}\left(p^{\mathrm{foc,f}}\right)$
+\end_inset
+
+ the focal mutant female breeder survives.
+ In addition, the second term in square brackets on the second line reflects
+ the expected number of philopatric mutant female offspring who establish
+ themselves as breeders: on average 
+\begin_inset Formula $n_{\mathrm{f}}\mu_{\mathrm{f}}(p^{\mathrm{loc,f}})$
+\end_inset
+
+ female breeding positions become vacant due to mortality of females in
+ the local patch (including the focal female).
+ The mutant female's daughters breeding then claim an expected share of
+ the 
+\begin_inset Formula $n_{\mathrm{f}}\mu_{\mathrm{f}}(p^{\mathrm{loc,f}})$
+\end_inset
+
+ vacant breeding positions of 
+\begin_inset Formula $(1-d_{\mathrm{f}})\bar{f}(p^{\mathrm{foc,f}})/\{n_{\mathrm{f}}[\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{f}}\bar{f}\left(p\right)]\}$
+\end_inset
+
+.
+ The term is multiplied by 
+\begin_inset Formula $1/4$
+\end_inset
+
+ as a focal female's genetic share in her offspring is 
+\begin_inset Formula $1/2$
+\end_inset
+
+ and we assume that the proportion of daughters (i.e., the brood sex ratio)
+ is 
+\begin_inset Formula $1/2$
+\end_inset
+
+.
+ The third line reflects the mutant female's offspring who establish themselves
+ in a remote patch: the frequency of patches that currently contain 
+\begin_inset Formula $\nu_{\mathrm{h,}\tau}$
+\end_inset
+
+ high-quality breeders is given by 
+\begin_inset Formula $q(\nu_{\mathrm{h,}\tau})$
+\end_inset
+
+ and 
+\begin_inset Formula $x\left(n_{\mathrm{h},\tau+1}\mid\nu_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)$
+\end_inset
+
+ reflects the probability that this remote patch ends up containing 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}$
+\end_inset
+
+ breeders.
+ The focal's expected share of the expected number of 
+\begin_inset Formula $n_{\mathrm{f}}\mu_{\mathrm{f}}(p)$
+\end_inset
+
+ breeding positions that become vacant is then given by 
+\begin_inset Formula $\bar{f}\left(p^{\mathrm{foc,f}}\right)/\{n_{\mathrm{f}}[\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p\right)+d_{\mathrm{f}}\bar{f}\left(p\right)]\}=\bar{f}\left(p^{\mathrm{foc,f}}\right)/\bar{f}\left(p\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Similarly, let 
+\begin_inset Formula $w_{\mathrm{f},n_{\mathrm{h},\tau}\rightarrow\mathrm{m},n_{\mathrm{h},\tau+1}}$
+\end_inset
+
+ reflect the expected number of male carriers of the mutant allele that
+ live on a patch with a total of 
+\begin_inset Formula $n_{\mathrm{h},\tau+1}$
+\end_inset
+
+ high-quality males and which are born from a female breeder who currently
+ resides on a patch with 
+\begin_inset Formula $n_{\mathrm{h},\tau}$
 \end_inset
 
  high-quality males.
  We have
 \begin_inset Formula 
 \begin{align*}
-w_{\mathrm{f}i\mathrm{f}j} & =x\left(i,j\right)\left[1-\mu\left(p^{\mathrm{foc},\mathrm{f}}\right)+\frac{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{f}}\left(p^{\mathrm{loc,f}}\right)}{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(p^{\mathrm{loc,f}}\right)+d_{\mathrm{f}}\bar{f}\left(p\right)}+\frac{d_{\mathrm{f}}\bar{f}\left(p^{\mathrm{foc,f}}\right)\mu_{\mathrm{f}}\left(p\right)}{\bar{f}\left(p\right)}\right]\\
-w_{\mathrm{f}i\mathrm{m}j} & =x\left(i,j\right)
+w_{\mathrm{f},n_{\mathrm{h},\tau}\rightarrow\mathrm{m},n_{\mathrm{h},\tau+1}} & =\frac{1}{4}x_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)
 \end{align*}
 
 \end_inset

@@ -12,6 +12,11 @@ enum Sex
     male = 1
 };
 
+enum Quality
+{
+    lq = 0,
+    hq = 1
+};
 
 class SexSelIntra
 {
