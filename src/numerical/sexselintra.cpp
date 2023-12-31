@@ -1,11 +1,26 @@
 #include <string>
+#include <iostream>
+#include <cmath>
+#include <cassert>
 #include "sexselintra.hpp"
 #include "parameters.hpp"
 
 SexSelIntra::SexSelIntra(Parameters const &parms) :
     params{parms}
     ,data_file(parms.filename.c_str())
-{}
+    ,t{params.t_init}
+    ,p{params.p_init}
+    ,tpr{params.tpr_init}
+    ,ornament{t, t + tpr}
+{
+    for (unsigned i = 0; i <= params.n[male]; ++i)
+    {
+        for (unsigned k = 0; k <= params.n[male]; ++k)
+        {
+            std::cout << "IMPLEMENT SOME BACKGROUND MORTALITY OK? out of " << i << " high q individiuals, there are " << k << " high q individuals dead with probability yhq: " << y(k,lq,i) << std::endl;
+        }
+    }
+}
 
 // https://www.geeksforgeeks.org/binomial-coefficient-dp-9/
 // calculate a semi-optimal version of a binomial coefficient
@@ -20,7 +35,11 @@ int binomialCoeff(int n, int r)
     if (r > n)
         return 0;
     long long int m = 1000000007;
-    long long int inv[r + 1] = { 0 };
+    long long int inv[r + 1];
+    for (long int r_i = 0; r_i < r+1; ++r_i)
+    {
+        inv[r_i] = 0;
+    }
     inv[0] = 1;
     if(r+1>=2)
     inv[1] = 1;
@@ -47,44 +66,82 @@ int binomialCoeff(int n, int r)
     return ans;
 } // end binomialCoefficient
 
-// probability that k mortalities take place
-// among the nm_x male breeders of quality x
-double SexSelIntra::y(unsigned k, Quality x, unsigned nm_x)
+// mortality rate of a female with preference p
+double SexSelIntra::mu_f(double const p)
 {
-    return(
-            binomialCoeff(nm_x, k) * std::pow(mu_m[x], k) * std::pow(1.0 - mu_m[x], nm_x - k)
+    return(params.bg_mort[female] + 
+                (1.0 - params.bg_mort[female]) * 
+                (1.0 - std::exp(-params.cp * std::pow(p, params.gammap)))
+            );
+}
+
+// mortality rate of a male with ornament s and quality x
+double SexSelIntra::mu_m(double const s, Quality const q)
+{
+    // see eq. (2a) in Iwasa & Pomiankowski (1999) JTB
+    // todo:build in baseline mortality
+    return(params.bg_mort[male] + 
+                (1.0 - params.bg_mort[male]) * 
+                (1.0 - std::exp(-params.cs * s * s/(1.0 + params.ks * q)))
           );
 }
 
 // probability that out of nvacant breeding positions
 // a number of nnewh will be usurped by high-quality males
-double SexSelIntra::z(unsigned nnewh, unsigned nvacant)
+double SexSelIntra::z(unsigned const nnewh
+    ,unsigned const nvacant)
 {
+    assert(nvacant >= nnewh);
+    assert(nvacant >= 0);
+    assert(nnewh >= 0);
 
+    return(
+            binomialCoeff(nnewh, nvacant) *
+                std::pow(params.bh, nnewh) *
+                std::pow(1.0 - params.bh, nvacant - nnewh)
+          );
 } // end z()
+
+// probability that k mortalities take place
+// among the nm_q male breeders of quality q
+double SexSelIntra::y(unsigned const k
+        ,Quality const q
+        ,unsigned const nm_q)
+{
+    return(
+            binomialCoeff(nm_q, k) * 
+                std::pow(mu_m(ornament[hq], q), k) * 
+                    std::pow(1.0 - mu_m(ornament[lq], q), nm_q - k)
+          );
+}
+
 
 // probability that a patch which currently contains
 // nh_t high-quality males will contain 
 // nh_tplus1 high-quality males in the next time step
-void SexSelIntra::fill_x(
+double SexSelIntra::x(
         unsigned const nh_t
         ,unsigned const nh_tplus1)
 {
     double val{0.0};
 
-    assert(n - nh_t >= 0);
+    assert(params.n[male] - nh_t >= 0);
     assert(nh_t >= 0);
-    assert(nh_t < n);
+    assert(nh_tplus1 >= 0);
+    assert(nh_t < params.n[male]);
 
-    for (unsigned k = 0; k < nh_t; ++k)
+    // go through 
+    for (unsigned k = 0; k <= nh_t; ++k)
     {
-        for (unsigned j = 0; j < n - nh_t; ++j)
+        for (unsigned j = 0; j <= params.n[male] - nh_t; ++j)
         {
-            val += y(k, HQ, nh_t) * y(j, LQ, n - nh_t) * z(
+            val += y(k, hq, nh_t) * 
+                y(j, lq, params.n[male] - nh_t) * 
+                z(nh_tplus1 - nh_t - k, k + j);
         }
     }
 
-    x[nh_t, nh_tplus1] = val;
+    return(val);
 } //  end x
         
 
@@ -95,9 +152,9 @@ double SexSelIntra::wff(
         unsigned const nh_t, 
         unsigned const nh_tplus1)
 {
-    double val{1.0 - mu(p)};
+    double val{1.0 - mu_f(p)};
 
-    val += 0.25 * (1.0 - params.d[female]) * 
+    val += 0.25 * (1.0 - params.d[female]);
 
 
     return(val);
@@ -112,14 +169,22 @@ void SexSelIntra::ecological_equilibrium()
     for (unsigned ecol_time_step = 0; 
             ecol_time_step < params.max_ecol_time; ++ecol_time_step)
     {
-        vftplus1
     }
+}
+
+// function to update the resident
+// ornament values after each generation
+void SexSelIntra::update_ornament()
+{
+    ornament[0] = t + tpr * lq;
+    ornament[1] = t + tpr * hq;
 }
 
 void SexSelIntra::run()
 {
     for (unsigned time_step = 0; time_step < params.max_time; ++time_step)
     {
+        update_ornament();
         ecological_equilibrium();
     }
 }

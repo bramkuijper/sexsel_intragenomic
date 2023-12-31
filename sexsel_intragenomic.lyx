@@ -382,7 +382,7 @@ The probability
 \end_inset
 
  that out of a total number of 
-\begin_inset Formula $n_{\mathrm{v}}$
+\begin_inset Formula $n_{\mathrm{vacant}}$
 \end_inset
 
  vacant male breeding positions, a number of 
@@ -392,8 +392,8 @@ The probability
  newborn males are of high quality is then given by
 \begin_inset Formula 
 \begin{align*}
-z\left(n_{\mathrm{new,h}}\mid n_{\mathrm{v}}\right) & =\begin{cases}
-{n_{\mathrm{new,h}} \choose n_{\mathrm{v}}}b_{\mathrm{h}}^{n_{\mathrm{new,h}}}\left(1-b_{\mathrm{h}}\right)^{n_{\mathrm{v}}-n_{\mathrm{new,h}}} & 0\leq n_{\mathrm{new,h}}\leq n_{\mathrm{v}}\\
+z\left(n_{\mathrm{new,h}}\mid n_{\mathrm{vacant}}\right) & =\begin{cases}
+{n_{\mathrm{new,h}} \choose n_{\mathrm{vacant}}}b_{\mathrm{h}}^{n_{\mathrm{new,h}}}\left(1-b_{\mathrm{h}}\right)^{n_{\mathrm{vacant}}-n_{\mathrm{new,h}}} & 0\leq n_{\mathrm{new,h}}\leq n_{\mathrm{v}}\\
 0 & \mathrm{otherwise}
 \end{cases},
 \end{align*}
