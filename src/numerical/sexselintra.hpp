@@ -37,18 +37,28 @@ class SexSelIntra
         Control control_t{offspring}; // genetic control over t 
         Control control_p{offspring};  // genetic control over p
 
-        // reproductive values
-        double v[2]{1.0,1.0};
+        // male reproductive values
+        // consisting of vm[j][k] where index j reflects
+        // the number of other high-quality males in the patch
+        // and the index k reflects whether the focal male is
+        // high quality themselves
+        std::vector < std::vector < double > > vm;
 
-        // stable class frequencies
-        double u[2]{0.5,0.5};
+        // female reproductive values
+        // only a function of the number of males in a local patch
+        std::vector < double > vf;
+
+        // patch frequencies
+        // i.e., the patches containing nh_t high-quality males
+        std::vector <double> u;
 
         // calculate equilibrium values of the 
         // reproductive values and relatedness
         void ecological_equilibrium();
 
         double wff(unsigned const nh_t, unsigned const nh_tplus1);
-        double wfm();
+        double wfmh(unsigned const nh_t, unsigned const nh_tplus1);
+        double wfml(unsigned const nh_t, unsigned const nh_tplus1);
         double wmf();
         double wmm();
 

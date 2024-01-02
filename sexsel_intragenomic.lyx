@@ -393,7 +393,7 @@ The probability
 \begin_inset Formula 
 \begin{align*}
 z\left(n_{\mathrm{new,h}}\mid n_{\mathrm{vacant}}\right) & =\begin{cases}
-{n_{\mathrm{new,h}} \choose n_{\mathrm{vacant}}}b_{\mathrm{h}}^{n_{\mathrm{new,h}}}\left(1-b_{\mathrm{h}}\right)^{n_{\mathrm{vacant}}-n_{\mathrm{new,h}}} & 0\leq n_{\mathrm{new,h}}\leq n_{\mathrm{v}}\\
+{n_{\mathrm{vacant}} \choose n_{\mathrm{new,h}}}b_{\mathrm{h}}^{n_{\mathrm{new,h}}}\left(1-b_{\mathrm{h}}\right)^{n_{\mathrm{vacant}}-n_{\mathrm{new,h}}} & 0\leq n_{\mathrm{new,h}}\leq n_{\mathrm{v}}\\
 0 & \mathrm{otherwise}
 \end{cases},
 \end{align*}
@@ -480,9 +480,12 @@ noprefix "false"
  born from a focal female we have
 \begin_inset Formula 
 \begin{align}
-x_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right) & =\sum_{n_{\mathrm{h}}^{\mathrm{foc}}=0}^{n_{h,\tau+1}-n_{h,\tau}-k}\left(n_{\mathrm{h}}^{\mathrm{foc}}+n_{\ell}^{\mathrm{foc}}\right)\sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
+x_{\mathrm{f,h}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right) & =\sum_{n_{\mathrm{h}}^{\mathrm{foc}}=0}^{n_{h,\tau+1}-n_{h,\tau}-k}n_{\mathrm{h}}^{\mathrm{foc}}\sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
  & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
- & \times z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{h,\tau+1}-n_{h,\tau}-k,k+j\right),\label{eq:xnhtplus1:female:focal}
+ & \times z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{h,\tau+1}-n_{h,\tau}-k,k+j\right),\label{eq:xnhtplus1:female:focal}\\
+x_{\mathrm{f,}\ell}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right) & =\sum_{n_{\mathrm{h}}^{\mathrm{foc}}=0}^{n_{h,\tau+1}-n_{h,\tau}-k}n_{\ell}^{\mathrm{foc}}\sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
+ & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
+ & \times\sum z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{h,\tau+1}-n_{h,\tau}-k,k+j\right),\label{eq:xnltplus1:female:focal}
 \end{align}
 
 \end_inset
@@ -668,7 +671,8 @@ Similarly, let
  We have
 \begin_inset Formula 
 \begin{align*}
-w_{\mathrm{f},n_{\mathrm{h},\tau}\rightarrow\mathrm{m},n_{\mathrm{h},\tau+1}} & =\frac{1}{4}x_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)
+w_{\mathrm{f},n_{\mathrm{h},\tau}\rightarrow\mathrm{m,h},n_{\mathrm{h},\tau+1}} & =\frac{1}{4}x_{\mathrm{f},\mathrm{h}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)\\
+ & +\frac{1}{4}d_{\mathrm{f}}
 \end{align*}
 
 \end_inset

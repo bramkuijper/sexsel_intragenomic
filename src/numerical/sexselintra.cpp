@@ -17,7 +17,7 @@ SexSelIntra::SexSelIntra(Parameters const &parms) :
     {
         for (unsigned k = 0; k <= params.n[male]; ++k)
         {
-            std::cout << "IMPLEMENT SOME BACKGROUND MORTALITY OK? out of " << i << " high q individiuals, there are " << k << " high q individuals dead with probability yhq: " << y(k,lq,i) << std::endl;
+            std::cout << "nnewh: " << i << " kvacant: " << k << " z: " << z(i,k) << std::endl;
         }
     }
 }
@@ -91,12 +91,11 @@ double SexSelIntra::mu_m(double const s, Quality const q)
 double SexSelIntra::z(unsigned const nnewh
     ,unsigned const nvacant)
 {
-    assert(nvacant >= nnewh);
     assert(nvacant >= 0);
     assert(nnewh >= 0);
 
     return(
-            binomialCoeff(nnewh, nvacant) *
+            binomialCoeff(nvacant, nnewh) *
                 std::pow(params.bh, nnewh) *
                 std::pow(1.0 - params.bh, nvacant - nnewh)
           );
@@ -114,6 +113,16 @@ double SexSelIntra::y(unsigned const k
                     std::pow(1.0 - mu_m(ornament[lq], q), nm_q - k)
           );
 }
+
+double SexSelIntra::xfoc(unsigned const nh_t, 
+        unsigned const nh_tplus1, 
+        Quality const q)
+{
+    double val{0.0};
+    
+
+} // xfoc
+
 
 
 // probability that a patch which currently contains
@@ -152,13 +161,37 @@ double SexSelIntra::wff(
         unsigned const nh_t, 
         unsigned const nh_tplus1)
 {
-    double val{1.0 - mu_f(p)};
+    double val{0.0};
 
-    val += 0.25 * (1.0 - params.d[female]);
+    val += x(nh_t, nh_tplus1) * (
+            (1.0 - mu_f(p))
+             + 0.25 * (1.0 - params.d[female]) * mu_f(p) 
+            );
 
+    // note re the latter term of 0.25 * (1.0 - params.d[female]) * mu_f(p) 
+    // this is, shorthand for 0.25 * (1.0 - params.d[female]) * mu_f(p) * f(p) / ((1-df) * f(p) + df * f(p))   
+
+    double sum_remote_frequencies{0.0};
+
+    for (unsigned nu_h_tau = 0; 
+            nu_h_tau <= params.n[male]; ++nu_h_tau)
+    {
+        sum_remote_frequencies += u[nu_h_tau] * x(nu_h_tau, nh_tplus1);
+    }
+
+    val += 0.25 * params.d[male] * sum_remote_frequencies * mu_f(p);
 
     return(val);
-}
+} // end wff
+
+double wfmh(unsigned const nh_t
+        ,unsigned const nh_tplus1)
+{
+    double val{0.0};
+
+    val += xfoch
+
+} // end wfmh
 
 // calculate equilibrium values of the 
 // reproductive values and relatedness
