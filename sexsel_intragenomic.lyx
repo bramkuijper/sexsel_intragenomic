@@ -262,8 +262,8 @@ literal "false"
 \begin_inset Formula 
 \begin{align*}
 \phi\left(\mathrm{h}\mid p^{\text{foc,f}};t,t^{\prime}\right) & =\frac{q\left(\mathrm{h}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{\sum\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid x\right)\right]q\left(x\right)\mathrm{d}x}\\
- & =r\sum_{n_{\mathrm{m,}i}=0}^{n_{\mathrm{m}}}q(n_{\mathrm{mh},i})\frac{n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{{\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}\\
- & +\left(1-r\right)\sum_{n_{\mathrm{m,}i}=0}^{n_{\mathrm{m}}}q(n_{\mathrm{mh},i})\frac{n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{{\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}
+ & =\left(1-\ell\right)\sum_{n_{\mathrm{m,}i}=0}^{n_{\mathrm{m}}}q(n_{\mathrm{mh},i})\frac{n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{{\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}\\
+ & +\ell\sum_{n_{\mathrm{m,}i}=0}^{n_{\mathrm{m}}}q(n_{\mathrm{mh},i})\frac{n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{{\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}
 \end{align*}
 
 \end_inset
@@ -284,6 +284,21 @@ literal "false"
 \end_inset
 
 ).
+\end_layout
+
+\begin_layout Standard
+Actually, shouldn't the above be
+\begin_inset Formula 
+\begin{align*}
+\phi\left(\mathrm{h}\mid p^{\text{foc,f}};t,t^{\prime}\right) & =\frac{q\left(\mathrm{h}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]}{\sum\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid x\right)\right]q\left(x\right)\mathrm{d}x}\\
+ & =\ell n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]\\
+ & \div\left(\ell\left\{ {\textstyle {\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}}\right\} \phantom{\sum_{\nu_{\mathrm{m,h}}=0}^{n_{\mathrm{m}}}}\right.\\
+ & +\left.\left[1-\ell\right]\sum_{\nu_{\mathrm{m,h}}=0}^{n_{\mathrm{m}}}q(\nu_{\mathrm{mh},i})\left\{ {\scriptscriptstyle n_{\mathrm{mh},i}\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid h\right)\right]+\left(n_{\mathrm{m}}-n_{\mathrm{mh},i}\right)\exp\left[ap^{\text{foc,f}}s\left(t,t^{\prime}\mid\ell\right)\right]}\right\} \right)
+\end{align*}
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -322,8 +337,9 @@ As males vary in quality, individuals experience a heterogeneous environment
  We have
 \begin_inset Formula 
 \begin{align}
-x\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)= & \sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
- & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)z\left(n_{h,\tau+1}-n_{h,\tau}-k\mid k+j\right),\label{eq:xnhtplus1}
+x\left(n_{\mathrm{m,h},\tau+1}\mid n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right)= & \sum_{k=0}^{n_{\mathrm{m,h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
+ & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
+ & \times z\left(n_{\mathrm{m,h},\tau+1}-n_{\mathrm{m,h},\tau}-k\mid k+j\right),\label{eq:xnhtplus1}
 \end{align}
 
 \end_inset
@@ -481,10 +497,10 @@ noprefix "false"
 \begin_inset Formula 
 \begin{align}
 x_{\mathrm{f,h}}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right) & =\sum_{n_{\mathrm{h}}^{\mathrm{foc}}=0}^{n_{h,\tau+1}-n_{h,\tau}-k}n_{\mathrm{h}}^{\mathrm{foc}}\sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
- & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
+ & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
  & \times z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{h,\tau+1}-n_{h,\tau}-k,k+j\right),\label{eq:xnhtplus1:female:focal}\\
 x_{\mathrm{f,}\ell}^{\mathrm{foc}}\left(n_{\mathrm{h},\tau+1}\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right),\mu_{\mathrm{m},\ell}\left(t\right)\right) & =\sum_{n_{\mathrm{h}}^{\mathrm{foc}}=0}^{n_{h,\tau+1}-n_{h,\tau}-k}n_{\ell}^{\mathrm{foc}}\sum_{k=0}^{n_{\mathrm{h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},h}\left(t\right)\right)\nonumber \\
- & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{h,\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
+ & \times\sum_{j=0}^{n-n_{\mathrm{h},\tau}}y_{\mathrm{\ell}}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\ell}\left(t\right)\right)\nonumber \\
  & \times\sum z_{\mathrm{f}}^{\mathrm{foc}}\left(n_{\mathrm{h}}^{\mathrm{foc}},n_{\ell}^{\mathrm{foc}}\mid n_{h,\tau+1}-n_{h,\tau}-k,k+j\right),\label{eq:xnltplus1:female:focal}
 \end{align}
 
@@ -699,11 +715,138 @@ Relatedness coefficients
 \end_layout
 
 \begin_layout Standard
-We have the following relatedness coefficients: 
+To work out the relatedness coefficients, let 
+\begin_inset Formula $\phi_{\mathrm{loc}}\left(t\mid p,n_{\mathrm{m,h}}\right)$
+\end_inset
+
+ reflect the probability that a local male with ornament size 
+\begin_inset Formula $t$
+\end_inset
+
+ gets chosen on a patch with 
+\begin_inset Formula $n_{\mathrm{m,h}}$
+\end_inset
+
+ high-quality males.
+ Hence, the probability that a local high-quality male with ornament size
+ 
+\begin_inset Formula $t_{\mathrm{h}}$
+\end_inset
+
+ is chosen is given
 \begin_inset Formula 
 \begin{align*}
-r_{\mathrm{f}\times m,h}\left(\tau+1,n_{\mathrm{m,h},\tau+1}\right) & =\left(1-\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\left(1-\mu_{\mathrm{f}}\left(p\right)\right)\sum_{k=2}^{n_{\mathrm{m,h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\\
- & \times\sum_{j=0}^{n_{\mathrm{m}}-n_{\mathrm{m,h},\tau}}y_{\ell}\left(j\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\sum z
+\phi_{\mathrm{loc}}\left(t_{\mathrm{h}}\mid p\right) & =\frac{\ell n_{\mathrm{m,h}}\psi\left(t_{\mathrm{h}}\mid p\right)}{K_{\mathrm{m}}\left(n_{\mathrm{m,h}}\right)},
+\end{align*}
+
+\end_inset
+
+where 
+\begin_inset Formula $K_{\mathrm{m}}\left(n_{\mathrm{m,h}}\right)$
+\end_inset
+
+ is the density of competing males given by
+\begin_inset Formula 
+\begin{align*}
+K_{\mathrm{m}}\left(n_{\mathrm{m,h}}\right) & =\ell\left[n_{\mathrm{m,h}}\psi\left(t_{\mathrm{h}}\mid p\right)+\left(n-n_{\mathrm{m,h}}\right)\psi\left(t_{\ell}\mid p\right)\right]\\
+ & +\left(1-\ell\right)\sum_{\nu_{\mathrm{m,h}}=0}^{n_{\mathrm{m}}}q\left(\nu_{\mathrm{m,h}}\right)\left[\nu_{\mathrm{m,h}}\psi\left(t_{\mathrm{h}}\mid p\right)+\left(n_{\mathrm{m}}-\nu_{\mathrm{m,h}}\right)\psi\left(t_{\ell}\mid p\right)\right].
+\end{align*}
+
+\end_inset
+
+To calculate transition probabilities in the number of high-quality males
+ beyond the focal male or any of its offspring, let 
+\begin_inset Formula $u\left(n_{\mathrm{m,h},\tau+1}-1\mid n_{\mathrm{m,h,\tau}}-1\right)$
+\end_inset
+
+ reflect the probability that instead of 
+\begin_inset Formula $n_{\mathrm{m,h},\tau}-1$
+\end_inset
+
+ males at time 
+\begin_inset Formula $\tau$
+\end_inset
+
+, there will be 
+\begin_inset Formula $n_{\mathrm{m,h},\tau+1}-1$
+\end_inset
+
+ high-quality males in the next time step or
+\begin_inset Formula 
+\begin{align*}
+u\left(n_{\mathrm{m,h},\tau+1}-1\mid n_{\mathrm{m,h,\tau}}-1\right)= & \sum_{k=0}^{n_{\mathrm{m,h},\tau}-1}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau}-1,\mu_{\mathrm{m},h}\left(t\right)\right)\\
+ & \times\sum_{j=0}^{n_{\mathrm{m}}-n_{\mathrm{m,h},\tau}}y_{\ell}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\\
+ & \times z\left(n_{\mathrm{m,h},\tau+1}-n_{\mathrm{m,h},\tau}-k-1\mid k+j\right).
+\end{align*}
+
+\end_inset
+
+Next, we also need to calculate the probabilities 
+\begin_inset Formula $b_{\mathrm{f},q_{\mathrm{pat}}}^{\mathrm{loc}}$
+\end_inset
+
+ 
+\begin_inset Formula $b_{\mathrm{m},q_{\mathrm{pat}}\rightarrow q_{\mathrm{son}}}^{\mathrm{loc}}$
+\end_inset
+
+ that  from a local father of quality 
+\begin_inset Formula $q_{\mathrm{pat}}$
+\end_inset
+
+ 
+\begin_inset Formula 
+\begin{align*}
+b_{q_{\mathrm{pat}}\rightarrow q_{\mathrm{son}}}^{\mathrm{loc}} & =
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Let us write the recursion 
+\begin_inset Formula $r_{\mathrm{f}\times m,h}\left(\tau+1,n_{\mathrm{m,h},\tau+1}\right)$
+\end_inset
+
+ as a sum of four independent probabilities
+\begin_inset Formula 
+\begin{align*}
+r_{\mathrm{f}\times\mathrm{m,h}}\left(\tau+1,n_{\mathrm{m,h},\tau+1}\right) & =\mathbb{P}_{\mathrm{f}\times\mathrm{m,h},\tau}\left(\text{m and f survive}\right)\\
+ & +\mathbb{P}_{\mathrm{f}\times\mathrm{m,h,}\tau}\left(\text{only f survives}\right)\\
+ & +\mathbb{P}_{\mathrm{f}\times\mathrm{m,h,}\tau}\left(\text{only m survives}\right)\\
+ & +\mathbb{P}_{\mathrm{f}\times\mathrm{m,h,}\tau}\left(\text{neither survives}\right).
+\end{align*}
+
+\end_inset
+
+We have
+\begin_inset Formula 
+\begin{align*}
+\mathbb{P}_{\mathrm{f}\times\mathrm{m,h,}\tau}\left(\text{m and f survive}\right) & =\left(1-\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\left(1-\mu_{\mathrm{f}}\left(p\right)\right)\sum_{n_{\mathrm{m,h,}\tau}=1}^{n_{\mathrm{m}}}q\left(n_{\mathrm{m,h,}\tau}\right)\\
+ & \times u\left(n_{\mathrm{m,h},\tau+1}-1\mid n_{\mathrm{m,h,\tau}}-1\right)r_{\mathrm{f}\times m,h}\left(\tau,n_{\mathrm{m,h},\tau}\right)\\
+\mathbb{P}_{\mathrm{f}\times\mathrm{m,h,}\tau}\left(\text{only f survives}\right) & =\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\left(1-\mu_{\mathrm{f}}\left(p\right)\right)\sum_{n_{\mathrm{m,h,}\tau}=1}^{n_{\mathrm{m}}}q\left(n_{\mathrm{m,h,}\tau}\right)\\
+ & \times u\left(n_{\mathrm{m,h},\tau+1}-1\mid n_{\mathrm{m,h,\tau}}-1\right)\\
+ & \times\left\{ b_{\mathrm{m,h}}^{\mathrm{loc}}\frac{1}{2}\left(\frac{1}{n_{\mathrm{f}}}+\frac{n_{\mathrm{f}}-1}{n_{\mathrm{f}}}r_{\mathrm{f}\times m,h}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\right.\\
+ & \times\left\{ \phi_{\mathrm{loc}}\left(t_{\mathrm{h}},p\right)b_{\mathrm{m,h\rightarrow h}}^{\mathrm{loc}}\frac{1}{2}\left(\frac{1}{n_{\mathrm{m,h},\tau}}+\frac{n_{\mathrm{m,h},\tau}-1}{n_{\mathrm{m,h},\tau}}r_{\mathrm{f}\times m,h}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\right.\\
+ & +\phi_{\mathrm{loc}}\left(t_{\mathrm{\ell}},p\right)b_{\mathrm{m,\ell\rightarrow h}}^{\mathrm{loc}}\left(\frac{1}{n_{\mathrm{m,\ell},\tau}}+\frac{n_{\mathrm{m,\ell},\tau}-1}{n_{\mathrm{m,\ell},\tau}}r_{\mathrm{f}\times m,\ell}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\\
+ & +\left(1-\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\mu_{\mathrm{f}}\left(p\right)\sum_{n_{\mathrm{m,h,}\tau}=1}^{n_{\mathrm{m}}}q\left(n_{\mathrm{m,h,}\tau}\right)\\
+ & \times\sum_{k=0}^{n_{\mathrm{m,h},\tau}-1}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau}-1,\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\\
+ & \times\sum_{j=0}^{n_{\mathrm{m}}-n_{\mathrm{m,h},\tau}}y_{\ell}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)z\left(n_{\mathrm{m,h},\tau+1}-n_{\mathrm{m}h,\tau}-1-k\mid k+j\right)\\
+ & \times\left\{ \phi_{\mathrm{loc}}\left(t_{\mathrm{h}},p\right)b_{\mathrm{m,h}}^{\mathrm{loc}}\frac{1}{2}\left(\frac{1}{n_{\mathrm{m,h},\tau}}+\frac{n_{\mathrm{m,h},\tau}-1}{n_{\mathrm{m,h},\tau}}r_{\mathrm{f}\times m,h}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\right.\\
+ & +\phi_{\mathrm{loc}}\left(t_{\mathrm{\ell}},p\right)b_{\mathrm{m,h}}^{\mathrm{loc}}\left(\frac{1}{n_{\mathrm{m,\ell},\tau}}+\frac{n_{\mathrm{m,\ell},\tau}-1}{n_{\mathrm{m,\ell},\tau}}r_{\mathrm{f}\times m,\ell}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\\
+ & \left.+\frac{1}{2}r_{\mathrm{f}\times m,\mathrm{h}}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right\} \\
+ & +\mu_{\mathrm{m,h}}(t)\mu_{\mathrm{f}}\left(p\right)\sum_{n_{\mathrm{m,h,}\tau}=1}^{n_{\mathrm{m}}}q\left(n_{\mathrm{m,h,}\tau}\right)\\
+ & \times\sum_{k=0}^{n_{\mathrm{m,h},\tau}-1}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau}-1,\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\\
+ & \times\sum_{j=0}^{n_{\mathrm{m}}-n_{\mathrm{m,h},\tau}}y_{\ell}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)z\left(n_{\mathrm{m,h},\tau+1}-n_{\mathrm{m}h,\tau}-1-k\mid k+j\right)\\
+\\
+\\
+ & +\mu_{\mathrm{f}}(p)\mu_{\mathrm{m,h}}\left(t\right)\sum_{n_{\mathrm{m,h,}\tau}=1}^{n_{\mathrm{m}}}q\left(n_{\mathrm{m,h,}\tau}\right)\\
+ & \times\sum_{k=0}^{n_{\mathrm{m,h},\tau}-1}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau}-1,\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\sum_{j=0}^{n_{\mathrm{m}}-n_{\mathrm{m,h},\tau}}y_{\ell}\left(j\mid n-n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\\
+ & \times z\left(n_{\mathrm{m,h},\tau+1}-n_{\mathrm{m}h,\tau}-1-k\mid k+j\right)\\
+ & \times\left\{ \phi_{\mathrm{loc}}\left(t_{\mathrm{h}},p\right)b_{\mathrm{m,h}}^{\mathrm{loc}}\left(\frac{1}{n_{\mathrm{m,h},\tau}}+\frac{n_{\mathrm{m,h},\tau}-1}{n_{\mathrm{m,h},\tau}}r_{\mathrm{f}\times m,h}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\right.\\
+ & +\left.\phi_{\mathrm{loc}}\left(t_{\mathrm{\ell}},p\right)b_{\mathrm{m,\ell}}^{\mathrm{loc}}\left(\frac{1}{n_{\mathrm{m,\ell},\tau}}+\frac{n_{\mathrm{m,\ell},\tau}-1}{n_{\mathrm{m,\ell},\tau}}r_{\mathrm{f}\times m,\ell}\left(\tau,n_{\mathrm{m,h},\tau}\right)\right)\right\} \\
+ & \times\\
 \end{align*}
 
 \end_inset

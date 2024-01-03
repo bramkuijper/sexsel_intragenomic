@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <cassert>
+#include <vector>
 #include "sexselintra.hpp"
 #include "parameters.hpp"
 
@@ -9,9 +10,9 @@ SexSelIntra::SexSelIntra(Parameters const &parms) :
     params{parms}
     ,data_file(parms.filename.c_str())
     ,t{params.t_init}
-    ,p{params.p_init}
     ,tpr{params.tpr_init}
     ,ornament{t, t + tpr}
+    ,p{params.p_init}
 {
     for (unsigned i = 0; i <= params.n[male]; ++i)
     {
@@ -78,11 +79,12 @@ double SexSelIntra::mu_f(double const p)
 // mortality rate of a male with ornament s and quality x
 double SexSelIntra::mu_m(double const s, Quality const q)
 {
+    double quality = static_cast<double>(q);
     // see eq. (2a) in Iwasa & Pomiankowski (1999) JTB
     // todo:build in baseline mortality
     return(params.bg_mort[male] + 
                 (1.0 - params.bg_mort[male]) * 
-                (1.0 - std::exp(-params.cs * s * s/(1.0 + params.ks * q)))
+                (1.0 - std::exp(-params.cs * s * s/(1.0 + params.ks * quality)))
           );
 }
 
@@ -114,7 +116,7 @@ double SexSelIntra::y(unsigned const k
           );
 }
 
-double SexSelIntra::xfoc(unsigned const nh_t, 
+double SexSelIntra::xfocf(unsigned const nh_t, 
         unsigned const nh_tplus1, 
         Quality const q)
 {
@@ -189,7 +191,7 @@ double wfmh(unsigned const nh_t
 {
     double val{0.0};
 
-    val += xfoch
+    val += 0.0;
 
 } // end wfmh
 
@@ -209,8 +211,8 @@ void SexSelIntra::ecological_equilibrium()
 // ornament values after each generation
 void SexSelIntra::update_ornament()
 {
-    ornament[0] = t + tpr * lq;
-    ornament[1] = t + tpr * hq;
+    ornament[0] = t + tpr * static_cast<double>(lq);
+    ornament[1] = t + tpr * static_cast<double>(hq);
 }
 
 void SexSelIntra::run()
