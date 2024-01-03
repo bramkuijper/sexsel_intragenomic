@@ -694,22 +694,16 @@ w_{\mathrm{mm}} & =1-\mu\left(t\right)+\frac{1}{4}\left[\frac{n_{\mathrm{m}}\lef
 
 \end_layout
 
-\begin_layout Subsubsection
-Mutant transition matrix of a mutant baseline ornament 
-\begin_inset Formula $t$
-\end_inset
-
-
+\begin_layout Subsection
+Relatedness coefficients
 \end_layout
 
 \begin_layout Standard
-We have
+We have the following relatedness coefficients: 
 \begin_inset Formula 
 \begin{align*}
-w_{\mathrm{ff}} & =1-\mu\left(p\right)+\frac{1}{4}\left[\frac{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(t^{\mathrm{loc,f}}\right)\mu_{\mathrm{f}}\left(p\right)}{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(t^{\mathrm{loc,\mathrm{f}}}\right)+d_{\mathrm{f}}\bar{f}\left(t\right)}+\frac{d_{\mathrm{f}}\bar{f}\left(t^{\mathrm{loc,f}}\right)\mu_{\mathrm{f}}\left(p\right)}{\bar{f}\left(t\right)}\right]\\
-w_{\mathrm{fm}} & =\frac{1}{4}\left[\frac{n_{\mathrm{m}}\left(1-d_{\mathrm{m}}\right)\bar{f}\left(t^{\mathrm{loc,f}}\right)\mu_{\mathrm{m}}\left(t^{\mathrm{loc,f}}\right)}{n_{\mathrm{f}}\left(\left(1-d_{\mathrm{m}}\right)\bar{f}\left(t^{\mathrm{loc,f}}\right)+d_{\mathrm{m}}\bar{f}\left(t\right)\right)}+\frac{n_{\mathrm{m}}d_{\mathrm{m}}\bar{f}\left(t^{\mathrm{loc,f}}\right)\mu_{\mathrm{m}}\left(t\right)}{n_{\mathrm{f}}\bar{f}\left(t\right)}\right]\\
-w_{\mathrm{mf}} & =\frac{1}{4}\left[\frac{\left(1-d_{\mathrm{f}}\right)\bar{m}\left(t^{\mathrm{foc,m}}\right)\mu_{\mathrm{f}}\left(p\right)}{\left(1-d_{\mathrm{f}}\right)\bar{f}\left(t^{\mathrm{loc,m}}\right)+d_{\mathrm{f}}\bar{f}\left(t\right)}+\frac{d_{\mathrm{f}}\bar{m}\left(t^{\mathrm{foc,m}}\right)\mu_{\mathrm{f}}\left(p\right)}{\bar{f}\left(t\right)}\right]\\
-w_{\mathrm{mm}} & =1-\mu\left(t^{\mathrm{foc,m}}\right)+\frac{1}{4}\left[\frac{n_{\mathrm{m}}\left(1-d_{\mathrm{m}}\right)\bar{m}\left(t^{\mathrm{foc,m}}\right)\mu_{\mathrm{m}}\left(t^{\mathrm{loc,m}}\right)}{n_{\mathrm{f}}\left(\left(1-d_{\mathrm{m}}\right)\bar{f}\left(t^{\mathrm{loc,m}}\right)+d_{\mathrm{m}}\bar{f}\left(t\right)\right)}+\frac{n_{\mathrm{m}}d_{\mathrm{m}}\bar{m}\left(t^{\mathrm{foc,m}}\right)\mu_{\mathrm{m}}\left(t\right)}{n_{\mathrm{f}}\bar{f}\left(t\right)}\right].
+r_{\mathrm{f}\times m,h}\left(\tau+1,n_{\mathrm{m,h},\tau+1}\right) & =\left(1-\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\left(1-\mu_{\mathrm{f}}\left(p\right)\right)\sum_{k=2}^{n_{\mathrm{m,h},\tau}}y_{\mathrm{h}}\left(k\mid n_{\mathrm{m,h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\\
+ & \times\sum_{j=0}^{n_{\mathrm{m}}-n_{\mathrm{m,h},\tau}}y_{\ell}\left(j\mid n_{\mathrm{h},\tau},\mu_{\mathrm{m},\mathrm{h}}\left(t\right)\right)\sum z
 \end{align*}
 
 \end_inset
